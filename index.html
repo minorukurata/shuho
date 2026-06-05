@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#1C1508"/>
+<title>週報 — Iglesia Adventista Japonesa Paraguay</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&family=Cinzel:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--washi:#F5F0E8;--ink:#1A1410;--sumi:#1C1508;--gold:#C9991A;--aka:#7A1515;--mizu:#3D6B7A;--rule:#C8BFA8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--washi);color:var(--ink);font-family:'Noto Serif JP',serif;overflow-x:hidden;}
+.hdr{position:sticky;top:0;z-index:200;background:var(--sumi);display:flex;align-items:center;justify-content:space-between;padding:16px 20px 13px;border-bottom:2px solid var(--gold);box-shadow:0 2px 16px rgba(0,0,0,.5);}
+.hdr-jp{font-family:'Cinzel',serif;font-size:20px;letter-spacing:6px;color:var(--gold);}
+.hdr-es{font-size:10px;letter-spacing:2px;color:#A89870;margin-top:2px;font-style:italic;}
+.hdr-date{font-size:11px;color:#8A7A60;font-family:'Noto Sans JP';text-align:right;line-height:1.7;}
+.tabs{display:flex;background:#1A150A;border-bottom:1px solid #3A3020;}
+.tab{flex:1;padding:11px 6px;font-size:11px;letter-spacing:1px;border:none;background:transparent;cursor:pointer;color:#7A6A50;font-family:'Noto Sans JP';border-bottom:2px solid transparent;transition:all .25s;}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.tab:hover:not(.active){background:rgba(255,255,255,.04);}
+.parallax-block{position:relative;overflow:hidden;height:160px;}
+.parallax-img{position:absolute;inset:-30% 0;width:100%;height:160%;object-fit:cover;will-change:transform;}
+.parallax-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:linear-gradient(to bottom,rgba(0,0,0,.35),rgba(0,0,0,.55));}
+.p-kanji{font-family:'Cinzel',serif;font-size:26px;letter-spacing:8px;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.7);}
+.p-romaji{font-size:10px;letter-spacing:4px;color:rgba(255,255,255,.65);font-family:'Noto Sans JP';}
+.time-badge{margin-top:6px;background:rgba(201,153,26,.88);color:#1A1410;font-size:10px;padding:2px 10px;border-radius:20px;letter-spacing:2px;font-family:'Noto Sans JP';font-weight:500;}
+.s-card{margin:0 12px;background:#fff;border:1px solid var(--rule);overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07);}
+.zoom-row{display:grid;grid-template-columns:96px 1fr;padding:10px 14px;border-bottom:1px solid #F0EBE0;align-items:start;gap:8px;will-change:transform,opacity;transform-origin:left center;}
+.zoom-row:last-child{border-bottom:none;}
+.r-lbl{font-size:10px;color:#AAA090;font-family:'Noto Sans JP';line-height:1.6;padding-top:3px;transition:color .3s;}
+.zoom-row.active .r-lbl{color:#6A5A48;}
+.r-val{display:flex;flex-direction:column;gap:3px;}
+.r-jp{font-size:13px;line-height:1.55;color:#9A8870;transition:color .3s;will-change:font-size;}
+.zoom-row.active .r-jp{color:var(--ink);}
+.r-es{font-size:11px;color:#B0C4CC;font-style:italic;line-height:1.5;transition:color .3s;}
+.zoom-row.active .r-es{color:var(--mizu);}
+.h-tag{display:inline-block;padding:1px 5px;border-radius:2px;font-size:9px;margin-right:3px;font-family:'Noto Sans JP';}
+.h-jp{background:var(--aka);color:#fff;}
+.h-es{background:var(--mizu);color:#fff;}
+.feliz{text-align:center;padding:14px 16px 10px;font-size:13px;color:var(--aka);font-weight:600;letter-spacing:2px;font-family:'Cinzel',serif;border-bottom:1px solid var(--rule);background:linear-gradient(180deg,#FDF6E8 0%,var(--washi) 100%);}
+.prayer{margin:20px 12px 0;background:linear-gradient(135deg,#1C1508 0%,#2E2210 100%);color:var(--washi);padding:16px;border-left:3px solid var(--gold);}
+.prayer-ttl{font-size:9px;letter-spacing:3px;color:var(--gold);margin-bottom:10px;font-family:'Noto Sans JP';}
+.p-zoom{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.07);font-family:'Noto Sans JP';will-change:font-size,opacity;transform-origin:left center;}
+.p-zoom:last-child{border-bottom:none;}
+.p-date{color:var(--gold);font-size:10px;min-width:34px;padding-top:2px;}
+.p-text{font-size:11px;color:rgba(255,255,255,.6);transition:color .3s;}
+.anuncio{margin:14px 12px 0;background:#FFF8EE;border:1px solid #E8D5A8;padding:14px;}
+.anuncio-ttl{font-size:9px;letter-spacing:3px;color:var(--gold);margin-bottom:8px;font-family:'Noto Sans JP';}
+.a-zoom{font-size:11px;padding:5px 0;border-bottom:1px dashed #DDD0A8;font-family:'Noto Sans JP';color:#B0A080;will-change:font-size,opacity;transform-origin:left center;transition:color .3s;}
+.a-zoom:last-child{border-bottom:none;}
+.footer{text-align:center;padding:28px 14px 40px;color:#9A8A78;font-size:10px;font-family:'Noto Sans JP';letter-spacing:1px;line-height:2;}
+.share-bar{margin:16px 12px 20px;}
+.share-btn{background:#128C7E;color:#fff;border:none;border-radius:3px;padding:13px;font-size:13px;width:100%;cursor:pointer;font-family:'Noto Sans JP';letter-spacing:1px;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s;}
+.share-btn:hover{background:#0A6B5E;}
+.reveal{opacity:0;transform:translateY(20px);}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--sumi);color:var(--washi);padding:10px 20px;border-radius:20px;font-size:11px;font-family:'Noto Sans JP';border:1px solid var(--gold);z-index:999;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateX(-50%) translateY(10px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+.ed-wrap{margin:12px;}
+.ed-group{background:#fff;border:1px solid var(--rule);padding:14px;margin-bottom:12px;}
+.ed-grp-ttl{display:block;font-size:9px;letter-spacing:3px;background:var(--sumi);color:var(--gold);padding:6px 10px;margin-bottom:10px;}
+.ed-lbl{display:block;font-size:10px;color:#7A6A56;letter-spacing:1px;margin-bottom:4px;font-family:'Noto Sans JP';}
+.ed-in{width:100%;padding:8px 10px;border:1px solid var(--rule);border-radius:2px;font-family:'Noto Sans JP';font-size:12px;background:#FDFAF5;color:var(--ink);margin-bottom:10px;outline:none;transition:border-color .2s;}
+.ed-in:focus{border-color:var(--mizu);}
+.ed-bi{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.btn-ok{background:var(--aka);color:#fff;border:none;padding:12px;width:100%;font-family:'Noto Sans JP';font-size:13px;letter-spacing:2px;cursor:pointer;transition:background .2s;}
+.btn-ok:hover{background:#5A1010;}
+.btn-reset{background:transparent;color:#8A7A60;border:1px solid #C8BFA8;padding:10px;width:100%;font-family:'Noto Sans JP';font-size:11px;letter-spacing:2px;cursor:pointer;transition:all .2s;}
+.btn-reset:hover{background:#F0E8D8;color:var(--aka);border-color:var(--aka);}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ── GSAP loader ── */
+function useGSAP(cb, deps = []) {
+  useEffect(() => {
+    let cleanup;
+    const load = async () => {
+      if (!window.gsap) {
+        await new Promise(res => {
+          const s = document.createElement("script");
+          s.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js";
+          s.onload = res; document.head.appendChild(s);
+        });
+      }
+      if (!window.ScrollTrigger) {
+        await new Promise(res => {
+          const s = document.createElement("script");
+          s.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js";
+          s.onload = res; document.head.appendChild(s);
+        });
+        window.gsap.registerPlugin(window.ScrollTrigger);
+      }
+      cleanup = cb(window.gsap, window.ScrollTrigger);
+    };
+    load();
+    return () => { if (typeof cleanup === "function") cleanup(); };
+  }, deps);
+}
+
+/* ── Datos iniciales ── */
+const initialData = {
+  fecha:"06/06/2026",
+  feliz:"¡¡¡FELIZ SÁBADO!!!　幸せな安息日を！",
+  culto:{
+    presentador_jp:"マリア・テレサ",presentador_es:"Maria Teresa",
+    himno1_jp:"1 あめつちこぞりて",himno1_es:"20 A Dios, el padre celestial",
+    oracion1_jp:"倉田ケリー",oracion1_es:"Kelly de Kurata",
+    himno2_jp:"60",himno2_es:"60",
+    lecturaBiblica_jp:"詩篇 119",lecturaBiblica_es:"Salmos 119",
+    oracion2_jp:"マリア・テレサ",oracion2_es:"Maria Teresa",
+    ofrenda_jp:"倉田薫",ofrenda_es:"Kaoru Kurata",
+    ninos_jp:"倉田ケリー",ninos_es:"Kelly de Kurata",
+    himnoEspecial_jp:"—",himnoEspecial_es:"—",
+    sermon_jp:"倉田ケリー",sermon_es:"Kelly de Kurata",
+    himno3_jp:"190",himno3_es:"190",
+    oracion3_jp:"倉田ケリー",oracion3_es:"Kelly de Kurata",
+    musica_jp:"岸田しおん/Laura/Aran",musica_es:"岸田しおん/Laura/Aran",
+    oracionFinal_jp:"司会者",oracionFinal_es:"Presentador",
+  },
+  escuela:{
+    director_jp:"細田茂",director_es:"Hosoda",
+    alabanzas_jp:"干場康秀",alabanzas_es:"Y.Hoshiba",
+    himno_jp:"希望191 きよき朝よ",himno_es:"545 Santo dia",
+    oracion_jp:"倉田薫",oracion_es:"Martin Kurata",
+    misionero_jp:"ビデオ",misionero_es:"Video",
+    leccion_jp:"干場康秀",leccion_es:"Sixto Hoshiba",
+    himno2_jp:"150 主のためにわれは生く",himno2_es:"266 Vivo por Cristo",
+    oracion2_jp:"栄田寛三",oracion2_es:"Kanzo Eida",
+  },
+  anuncios:{
+    anciano_jp:"細田茂",anciano_es:"Hosoda",
+    sermon_sig_jp:"倉田伸寿",sermon_sig_es:"Shinju Kurata",
+    limpieza_jp:"ミリアン・ちあき",limpieza_es:"Miran Chiaki",
+    nota:"6月 母の日・父の日集会 / Reunión Día de la Madre y del Padre",
+  },
+  oraciones:[
+    {fecha:"06/06",texto:"Flia. Eida"},
+    {fecha:"07/06",texto:"Flia. Kurata"},
+    {fecha:"08/06",texto:"Flia. Hoshiba"},
+    {fecha:"09/06",texto:"Flia. Kishida"},
+    {fecha:"10/06",texto:"Flia. Hosoda"},
+    {fecha:"11/06",texto:"Hermanos que no asisten frecuentemente"},
+    {fecha:"12/06",texto:"Obreros y funcionarios de la iglesia en Py"},
+  ]
+};
+
+const HERO_ESCUELA = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80";
+const HERO_CULTO   = "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=80";
+const STORAGE_KEY  = "shuho_data_v1";
+
+function loadData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) return { ...initialData, ...JSON.parse(saved) };
+  } catch {}
+  return initialData;
+}
+
+/* ── ZoomRow ── */
+function ZoomRow({ label, jp, es, hymn }) {
+  const rowRef = useRef(null);
+  const jpRef  = useRef(null);
+
+  useGSAP((gsap, ST) => {
+    const row = rowRef.current;
+    const jpEl = jpRef.current;
+    if (!row || !jpEl) return;
+
+    gsap.fromTo(jpEl,
+      { fontSize:"12px", opacity:0.45 },
+      { fontSize:"20px", opacity:1, ease:"power1.inOut",
+        scrollTrigger:{ trigger:row, start:"top 82%", end:"top 50%", scrub:0.6 }}
+    );
+    gsap.fromTo(jpEl,
+      { fontSize:"20px", opacity:1 },
+      { fontSize:"12px", opacity:0.45, ease:"power1.inOut",
+        scrollTrigger:{ trigger:row, start:"top 50%", end:"top 18%", scrub:0.6 }}
+    );
+    gsap.fromTo(row,
+      { backgroundColor:"rgba(201,153,26,0)" },
+      { backgroundColor:"rgba(201,153,26,0.07)", ease:"power1.inOut",
+        scrollTrigger:{
+          trigger:row, start:"top 65%", end:"top 35%", scrub:0.5,
+          onEnter:()=>row.classList.add("active"),
+          onLeave:()=>row.classList.remove("active"),
+          onEnterBack:()=>row.classList.add("active"),
+          onLeaveBack:()=>row.classList.remove("active"),
+        }}
+    );
+    return () => ST.getAll().forEach(t => t.kill());
+  }, [label]);
+
+  if (!jp && !es) return null;
+  return (
+    <div className="zoom-row" ref={rowRef}>
+      <span className="r-lbl">{label}</span>
+      <div className="r-val">
+        {hymn ? (
+          <>
+            <div className="r-jp" ref={jpRef}><span className="h-tag h-jp">♪ JP</span>{jp}</div>
+            <div className="r-es"><span className="h-tag h-es">♪ ES</span>{es}</div>
+          </>
+        ) : (
+          <>
+            <div className="r-jp" ref={jpRef}>{jp}</div>
+            {es && es !== jp && <div className="r-es">{es}</div>}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ── ZoomLine ── */
+function ZoomLine({ children, className="p-zoom", textClass="p-text" }) {
+  const ref = useRef(null);
+  useGSAP((gsap, ST) => {
+    const el = ref.current;
+    if (!el) return;
+    const txt = el.querySelector("." + textClass);
+    if (!txt) return;
+    gsap.fromTo(txt,
+      { fontSize:"11px", opacity:0.4 },
+      { fontSize:"16px", opacity:1, ease:"power1.inOut",
+        scrollTrigger:{ trigger:el, start:"top 80%", end:"top 50%", scrub:0.6 }}
+    );
+    gsap.fromTo(txt,
+      { fontSize:"16px", opacity:1 },
+      { fontSize:"11px", opacity:0.4, ease:"power1.inOut",
+        scrollTrigger:{ trigger:el, start:"top 50%", end:"top 20%", scrub:0.6 }}
+    );
+    gsap.fromTo(el,
+      { backgroundColor:"rgba(0,0,0,0)" },
+      { backgroundColor: className==="a-zoom" ? "rgba(201,153,26,0.08)" : "rgba(255,255,255,0.04)",
+        ease:"power1.inOut",
+        scrollTrigger:{
+          trigger:el, start:"top 65%", end:"top 35%", scrub:0.5,
+          onEnter:()=>el.classList.add("active"),
+          onLeave:()=>el.classList.remove("active"),
+          onEnterBack:()=>el.classList.add("active"),
+          onLeaveBack:()=>el.classList.remove("active"),
+        }}
+    );
+    return () => ST.getAll().forEach(t => t.kill());
+  }, []);
+  return <div ref={ref} className={className}>{children}</div>;
+}
+
+/* ── ParallaxHero ── */
+function ParallaxHero({ imgSrc, kanji, romaji, time, id }) {
+  const imgRef = useRef(null);
+  useGSAP((gsap, ST) => {
+    const el = imgRef.current;
+    if (!el) return;
+    gsap.timeline({
+      scrollTrigger:{ trigger:el.parentElement, start:"top bottom", end:"bottom top", scrub:1.2 }
+    }).fromTo(el, { yPercent:-12 }, { yPercent:12, ease:"none" });
+    gsap.fromTo(el.parentElement,
+      { clipPath:"inset(18% 8% round 4px)" },
+      { clipPath:"inset(0% 0% round 0px)", ease:"power2.out", duration:1,
+        scrollTrigger:{ trigger:el.parentElement, start:"top 88%", toggleActions:"play none none reverse" }}
+    );
+    return () => ST.getAll().forEach(t => t.kill());
+  }, [id]);
+  return (
+    <div className="parallax-block" id={id}>
+      <img ref={imgRef} className="parallax-img" src={imgSrc} alt={romaji} loading="lazy"/>
+      <div className="parallax-overlay">
+        <span className="p-kanji">{kanji}</span>
+        <span className="p-romaji">{romaji}</span>
+        {time && <span className="time-badge">{time}</span>}
+      </div>
+    </div>
+  );
+}
+
+/* ── Reveal ── */
+function Reveal({ children, delay=0 }) {
+  const ref = useRef(null);
+  useGSAP((gsap, ST) => {
+    gsap.to(ref.current, {
+      opacity:1, y:0, duration:.7, delay, ease:"power2.out",
+      scrollTrigger:{ trigger:ref.current, start:"top 92%", toggleActions:"play none none reverse" }
+    });
+    return () => ST.getAll().forEach(t => t.kill());
+  }, []);
+  return <div ref={ref} className="reveal">{children}</div>;
+}
+
+/* ── Viewer ── */
+function Viewer({ data }) {
+  const c = data.culto, e = data.escuela, a = data.anuncios;
+  return (
+    <div>
+      <div className="feliz">{data.feliz}</div>
+
+      <ParallaxHero id="hero-escuela" imgSrc={HERO_ESCUELA} kanji="安息日学校" romaji="ESCUELA SABÁTICA" time="08:50〜10:25"/>
+      <Reveal>
+        <div className="s-card">
+          <ZoomRow label="校長 / Director"      jp={e.director_jp}  es={e.director_es}/>
+          <ZoomRow label="賛美 / Alabanzas"     jp={e.alabanzas_jp} es={e.alabanzas_es}/>
+          <ZoomRow label="賛美歌 / Himno"       jp={e.himno_jp}     es={e.himno_es}     hymn/>
+          <ZoomRow label="お祈り / Oración"     jp={e.oracion_jp}   es={e.oracion_es}/>
+          <ZoomRow label="伝道地 / Misionero"   jp={e.misionero_jp} es={e.misionero_es}/>
+          <ZoomRow label="ガイド / Lección"     jp={e.leccion_jp}   es={e.leccion_es}/>
+          <ZoomRow label="賛美歌 2 / Himno 2"   jp={e.himno2_jp}    es={e.himno2_es}    hymn/>
+          <ZoomRow label="お祈り 2 / Oración 2" jp={e.oracion2_jp}  es={e.oracion2_es}/>
+        </div>
+      </Reveal>
+
+      <ParallaxHero id="hero-culto" imgSrc={HERO_CULTO} kanji="礼　拝" romaji="CULTO" time="10:30〜11:20"/>
+      <Reveal>
+        <div className="s-card">
+          <ZoomRow label="司会 / Presentador"    jp={c.presentador_jp}    es={c.presentador_es}/>
+          <ZoomRow label="賛美歌 1 / Himno 1"    jp={c.himno1_jp}         es={c.himno1_es}      hymn/>
+          <ZoomRow label="お祈り 1 / Oración 1"  jp={c.oracion1_jp}       es={c.oracion1_es}/>
+          <ZoomRow label="賛美歌 2 / Himno 2"    jp={c.himno2_jp}         es={c.himno2_es}      hymn/>
+          <ZoomRow label="聖書朗読 / Lectura"    jp={c.lecturaBiblica_jp} es={c.lecturaBiblica_es}/>
+          <ZoomRow label="お祈り 2 / Oración 2"  jp={c.oracion2_jp}       es={c.oracion2_es}/>
+          <ZoomRow label="献金 / Ofrenda"        jp={c.ofrenda_jp}        es={c.ofrenda_es}/>
+          <ZoomRow label="子どもの話 / Niños"    jp={c.ninos_jp}          es={c.ninos_es}/>
+          <ZoomRow label="特別讃美歌 / H.Esp."   jp={c.himnoEspecial_jp}  es={c.himnoEspecial_es} hymn/>
+          <ZoomRow label="説教 / Sermón"         jp={c.sermon_jp}         es={c.sermon_es}/>
+          <ZoomRow label="賛美歌 3 / Himno 3"    jp={c.himno3_jp}         es={c.himno3_es}      hymn/>
+          <ZoomRow label="お祈り 3 / Oración 3"  jp={c.oracion3_jp}       es={c.oracion3_es}/>
+          <ZoomRow label="奏楽 / Música"         jp={c.musica_jp}         es={c.musica_es}/>
+          <ZoomRow label="礼拝後の祈り"           jp={c.oracionFinal_jp}   es={c.oracionFinal_es}/>
+        </div>
+      </Reveal>
+
+      <Reveal delay={0.05}>
+        <div className="prayer">
+          <div className="prayer-ttl">執り成しのお祈り　ORACIÓN DIARIA</div>
+          {data.oraciones.map((o, i) => (
+            <ZoomLine key={i} className="p-zoom" textClass="p-text">
+              <span className="p-date">{o.fecha}</span>
+              <span className="p-text">{o.texto}</span>
+            </ZoomLine>
+          ))}
+        </div>
+      </Reveal>
+
+      <Reveal delay={0.1}>
+        <div className="anuncio">
+          <div className="anuncio-ttl">発表　ANUNCIOS</div>
+          <ZoomLine className="a-zoom" textClass="p-text">
+            <span className="p-text">月当番長老 / Anciano: {a.anciano_jp} / {a.anciano_es}</span>
+          </ZoomLine>
+          <ZoomLine className="a-zoom" textClass="p-text">
+            <span className="p-text">次週説教 / Sermón sig.: {a.sermon_sig_jp} / {a.sermon_sig_es}</span>
+          </ZoomLine>
+          <ZoomLine className="a-zoom" textClass="p-text">
+            <span className="p-text">掃除 / Limpieza: {a.limpieza_jp} / {a.limpieza_es}</span>
+          </ZoomLine>
+          {a.nota && (
+            <ZoomLine className="a-zoom" textClass="p-text">
+              <span className="p-text" style={{color:"var(--aka)",fontStyle:"italic"}}>{a.nota}</span>
+            </ZoomLine>
+          )}
+        </div>
+      </Reveal>
+
+      <div className="footer">
+        www.facebook.com/iglesiajaponesaPY<br/>
+        教会 Iglesia Adventista Japonesa — Paraguay
+      </div>
+    </div>
+  );
+}
+
+/* ── Editor ── */
+function BF({ label, field, data, onChange }) {
+  return (
+    <div className="ed-bi">
+      <div>
+        <label className="ed-lbl">{label} 🇯🇵</label>
+        <input className="ed-in" style={{marginBottom:0}} value={data[field+"_jp"]??""}
+          onChange={e=>onChange(field+"_jp",e.target.value)}/>
+      </div>
+      <div>
+        <label className="ed-lbl">{label} 🇪🇸</label>
+        <input className="ed-in" style={{marginBottom:0}} value={data[field+"_es"]??""}
+          onChange={e=>onChange(field+"_es",e.target.value)}/>
+      </div>
+    </div>
+  );
+}
+
+function Editor({ data, onChange }) {
+  const upd = (sec,f,v) => onChange({...data,[sec]:{...data[sec],[f]:v}});
+  const updR = (f,v) => onChange({...data,[f]:v});
+  return (
+    <div className="ed-wrap">
+      <div className="ed-group">
+        <span className="ed-grp-ttl">📅 ENCABEZADO</span>
+        <label className="ed-lbl">Fecha</label>
+        <input className="ed-in" value={data.fecha} onChange={e=>updR("fecha",e.target.value)}/>
+        <label className="ed-lbl">Saludo</label>
+        <input className="ed-in" value={data.feliz} onChange={e=>updR("feliz",e.target.value)}/>
+      </div>
+      <div className="ed-group">
+        <span className="ed-grp-ttl">安息日学校 ESCUELA SABÁTICA</span>
+        {[["校長 / Director","director"],["賛美 / Alabanzas","alabanzas"],
+          ["賛美歌 / Himno","himno"],["お祈り / Oración","oracion"],
+          ["伝道地 / Misionero","misionero"],["ガイド / Lección","leccion"],
+          ["賛美歌 2 / Himno 2","himno2"],["お祈り 2 / Oración 2","oracion2"]
+        ].map(([l,f])=><BF key={f} label={l} field={f} data={data.escuela} onChange={(ff,v)=>upd("escuela",ff,v)}/>)}
+      </div>
+      <div className="ed-group">
+        <span className="ed-grp-ttl">礼拝 CULTO</span>
+        {[["司会 / Presentador","presentador"],["賛美歌 1 / Himno 1","himno1"],
+          ["お祈り 1 / Oración 1","oracion1"],["賛美歌 2 / Himno 2","himno2"],
+          ["聖書朗読 / Lectura","lecturaBiblica"],["お祈り 2 / Oración 2","oracion2"],
+          ["献金 / Ofrenda","ofrenda"],["子どもの話 / Niños","ninos"],
+          ["特別讃美歌 / H.Esp.","himnoEspecial"],["説教 / Sermón","sermon"],
+          ["賛美歌 3 / Himno 3","himno3"],["お祈り 3 / Oración 3","oracion3"],
+          ["奏楽 / Música","musica"],["礼拝後の祈り","oracionFinal"]
+        ].map(([l,f])=><BF key={f} label={l} field={f} data={data.culto} onChange={(ff,v)=>upd("culto",ff,v)}/>)}
+      </div>
+      <div className="ed-group">
+        <span className="ed-grp-ttl">発表 ANUNCIOS</span>
+        {[["月当番長老 / Anciano","anciano"],["次週説教 / Sermón sig.","sermon_sig"],
+          ["掃除 / Limpieza","limpieza"]
+        ].map(([l,f])=><BF key={f} label={l} field={f} data={data.anuncios} onChange={(ff,v)=>upd("anuncios",ff,v)}/>)}
+        <label className="ed-lbl">Nota especial</label>
+        <input className="ed-in" value={data.anuncios.nota} onChange={e=>upd("anuncios","nota",e.target.value)}/>
+      </div>
+      <div className="ed-group">
+        <span className="ed-grp-ttl">執り成しのお祈り ORACIÓN DIARIA</span>
+        {data.oraciones.map((o,i)=>(
+          <div key={i} style={{display:"grid",gridTemplateColumns:"64px 1fr",gap:8,marginBottom:8}}>
+            <input className="ed-in" style={{marginBottom:0}} value={o.fecha}
+              onChange={e=>{const a=[...data.oraciones];a[i]={...a[i],fecha:e.target.value};onChange({...data,oraciones:a});}}/>
+            <input className="ed-in" style={{marginBottom:0}} value={o.texto}
+              onChange={e=>{const a=[...data.oraciones];a[i]={...a[i],texto:e.target.value};onChange({...data,oraciones:a});}}/>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── App ── */
+function App() {
+  const [tab, setTab]   = useState("view");
+  const [data, setData] = useState(loadData);
+  const [toast, setToast] = useState("");
+
+  useEffect(() => {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
+  }, [data]);
+
+  const showToast = msg => { setToast(msg); setTimeout(()=>setToast(""), 2500); };
+
+  const share = () => {
+    const c=data.culto, e=data.escuela, a=data.anuncios;
+    const txt=
+`🌸 *週報 Boletín Semanal* 🌸
+📅 ${data.fecha} — ${data.feliz}
+
+━━ 安息日学校 ESCUELA SABÁTICA ━━
+🕗 8:50〜10:25
+• 校長: ${e.director_jp} / ${e.director_es}
+• ガイド: ${e.leccion_jp} / ${e.leccion_es}
+
+━━ 礼拝 CULTO ━━
+🕙 10:30〜11:20
+• 司会: ${c.presentador_jp} / ${c.presentador_es}
+• 説教: ${c.sermon_jp} / ${c.sermon_es}
+• 奏楽: ${c.musica_jp}
+
+━━ 発表 ANUNCIOS ━━
+• Anciano: ${a.anciano_jp} / ${a.anciano_es}
+• Sermón sig.: ${a.sermon_sig_jp}
+${a.nota?"• "+a.nota:""}
+
+🔗 facebook.com/iglesiajaponesaPY`;
+    if(navigator.share){ navigator.share({title:"週報 "+data.fecha,text:txt}); }
+    else{ navigator.clipboard.writeText(txt).then(()=>showToast("✓ Copiado al portapapeles")); }
+  };
+
+  return (
+    <div>
+      <div className="hdr">
+        <div>
+          <div className="hdr-jp">週　報</div>
+          <div className="hdr-es">Iglesia Adventista Japonesa · Paraguay</div>
+        </div>
+        <div className="hdr-date">Paraguay<br/>{data.fecha}</div>
+      </div>
+      <div className="tabs">
+        <button className={`tab ${tab==="view"?"active":""}`} onClick={()=>setTab("view")}>📖 Boletín</button>
+        <button className={`tab ${tab==="edit"?"active":""}`} onClick={()=>setTab("edit")}>✏️ Editor</button>
+      </div>
+      {tab==="view" ? (
+        <>
+          <Viewer data={data}/>
+          <div className="share-bar">
+            <button className="share-btn" onClick={share}>📤 Compartir por WhatsApp</button>
+          </div>
+        </>
+      ) : (
+        <>
+          <Editor data={data} onChange={setData}/>
+          <div style={{padding:"0 12px 4px"}}>
+            <button className="btn-ok" onClick={()=>{setTab("view");showToast("✓ Cambios guardados");}}>✓ Guardar y ver</button>
+          </div>
+          <div style={{padding:"8px 12px 24px"}}>
+            <button className="btn-reset" onClick={()=>{
+              if(window.confirm("¿Resetear al template para la semana nueva?")){
+                setData(initialData); showToast("↺ Template reseteado");
+              }
+            }}>↺ Nueva semana (resetear)</button>
+          </div>
+        </>
+      )}
+      {toast && <div className="toast">{toast}</div>}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

@@ -157,6 +157,15 @@ const HERO_CULTO   = "https://images.unsplash.com/photo-1519681393784-d120267933
 const STORAGE_KEY  = "shuho_data_v1";
 
 function loadData() {
+  // 1. Lee la URL primero (link compartido)
+  try {
+    const hash = window.location.hash.slice(1);
+    if (hash.startsWith("d=")) {
+      const decoded = JSON.parse(decodeURIComponent(atob(hash.slice(2))));
+      return { ...initialData, ...decoded };
+    }
+  } catch {}
+  // 2. localStorage (edicion propia)
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) return { ...initialData, ...JSON.parse(saved) };
@@ -461,8 +470,12 @@ function App() {
   const showToast = msg => { setToast(msg); setTimeout(()=>setToast(""), 2500); };
 
   const share = () => {
-    const c=data.culto, e=data.escuela, a=data.anuncios;
-    const txt=
+    // Genera link con datos codificados en la URL
+    try {
+      const encoded = btoa(encodeURIComponent(JSON.stringify(data)));
+      const url = window.location.origin + window.location.pathname + "#d=" + encoded;
+      const c=data.culto, e=data.escuela, a=data.anuncios;
+      const txt=
 `🌸 *週報 Boletín Semanal* 🌸
 📅 ${data.fecha} — ${data.feliz}
 
@@ -482,9 +495,10 @@ function App() {
 • Sermón sig.: ${a.sermon_sig_jp}
 ${a.nota?"• "+a.nota:""}
 
-🔗 facebook.com/iglesiajaponesaPY`;
-    if(navigator.share){ navigator.share({title:"週報 "+data.fecha,text:txt}); }
-    else{ navigator.clipboard.writeText(txt).then(()=>showToast("✓ Copiado al portapapeles")); }
+🔗 ${url}`;
+      if(navigator.share){ navigator.share({title:"週報 "+data.fecha, text:txt}); }
+      else{ navigator.clipboard.writeText(txt).then(()=>showToast("✓ Link copiado al portapapeles")); }
+    } catch(err) { showToast("Error al generar link"); }
   };
 
   return (
@@ -504,7 +518,7 @@ ${a.nota?"• "+a.nota:""}
         <>
           <Viewer data={data}/>
           <div className="share-bar">
-            <button className="share-btn" onClick={share}>📤 Compartir por WhatsApp</button>
+            <button className="share-btn" onClick={share}>🔗 Generar link y compartir</button>
           </div>
         </>
       ) : (

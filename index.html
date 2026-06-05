@@ -206,7 +206,7 @@ function ZoomRow({ label, jp, es, hymn }) {
         {hymn ? (
           <>
             <div className="r-jp" ref={jpRef}><span className="h-tag h-jp">♪ JP</span>{jp}</div>
-            <div className="r-es"><span className="h-tag h-es">♪ ES</span>{es}</div>
+            <div className="r-es"><span className="h-tag h-es">♪ 🇵🇾</span>{es}</div>
           </>
         ) : (
           <>
@@ -386,7 +386,7 @@ function BF({ label, field, data, onChange }) {
           onChange={e=>onChange(field+"_jp",e.target.value)}/>
       </div>
       <div>
-        <label className="ed-lbl">{label} 🇪🇸</label>
+        <label className="ed-lbl">{label} 🇵🇾</label>
         <input className="ed-in" style={{marginBottom:0}} value={data[field+"_es"]??""}
           onChange={e=>onChange(field+"_es",e.target.value)}/>
       </div>

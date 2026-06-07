@@ -327,6 +327,60 @@ const HERO_ESCUELA = "https://images.unsplash.com/photo-1506905925346-21bda4d32d
 const HERO_CULTO = "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=80";
 const STORAGE_KEY = "shuho_data_v1";
 const NAMES_KEY = "shuho_names_v1";
+
+const PRESET_NAMES = [
+  "倉田稔",
+  "倉田薫",
+  "倉田マルタ",
+  "倉田美幸",
+  "倉田鳴海",
+  "岸田省一",
+  "岸田毅",
+  "岸田雅仁",
+  "岸田ルツ",
+  "岸田デリア",
+  "岸田アラン",
+  "岸田シオン",
+  "干場康秀",
+  "干場リリアナ",
+  "細田茂",
+  "細田ローラ",
+  "細田サンドラ",
+  "栄田寛三",
+  "栄田ベンジ",
+  "栄田きざし",
+  "大石美智子",
+  "大石千明",
+  "合田マリア",
+  "つくだよこ",
+  "マルセロ・コレア",
+  "Minoru Kurata",
+  "Kaoru Kurata",
+  "Marta Kurata",
+  "Miyuki Kurata",
+  "Narumi Kurata",
+  "Shoichi Kishida",
+  "Takeshi Kishida",
+  "Masahito Kishida",
+  "Ruth Kishida",
+  "Delia Kishida",
+  "Aran Kishida",
+  "Shion Kishida",
+  "Yasuhide Hoshiba",
+  "Liliana Hoshiba",
+  "Shigeru Hosoda",
+  "Laura Hosoda",
+  "Sandra Hosoda",
+  "Kanzo Eida",
+  "Benji Eida",
+  "Kizashi Eida",
+  "Michiko Oishi",
+  "Chiaki Oishi",
+  "Maria Goda",
+  "Yoko Tsukuda",
+  "Marcelo Correa"
+];
+
 const HIMNOS_ESP = {
   1: {
     es: "1 Cantad Alegres al Señor",
@@ -1108,9 +1162,10 @@ const HIMNOS_JPN = {
 };
 function loadNames() {
   try {
-    return JSON.parse(localStorage.getItem(NAMES_KEY)) || [];
+    const saved = JSON.parse(localStorage.getItem(NAMES_KEY)) || [];
+    return [...new Set([...PRESET_NAMES, ...saved])];
   } catch (e) {
-    return [];
+    return PRESET_NAMES; // [];
   }
 }
 function saveNames(names) {

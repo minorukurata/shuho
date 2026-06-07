@@ -1789,13 +1789,14 @@ function ACInput({
       filter(e.target.value);
     },
     onKeyDown: handleKey,
-    onBlur: () => setTimeout(() => setSuggestions([]), 150)
+    onBlur: () => setTimeout(() => setSuggestions([]), 300)
   }), suggestions.length > 0 && /*#__PURE__*/React.createElement("div", {
     className: "ac-list"
   }, suggestions.map((s, i) => /*#__PURE__*/React.createElement("div", {
     key: s,
     className: `ac-item${i === selIdx ? " sel" : ""}`,
-    onMouseDown: () => pick(s)
+    onMouseDown: () => pick(s),
+    onTouchStart: () => pick(s)
   }, highlight(s)))));
 }
 

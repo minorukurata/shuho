@@ -381,6 +381,60 @@ const PRESET_NAMES = [
   "Marcelo Correa"
 ];
 
+const NAME_PAIRS = {
+  "倉田稔": "Minoru Kurata",
+  "Minoru Kurata": "倉田稔",
+  "倉田薫": "Kaoru Kurata",
+  "Kaoru Kurata": "倉田薫",
+  "倉田マルタ": "Marta Kurata",
+  "Marta Kurata": "倉田マルタ",
+  "倉田美幸": "Miyuki Kurata",
+  "Miyuki Kurata": "倉田美幸",
+  "倉田鳴海": "Narumi Kurata",
+  "Narumi Kurata": "倉田鳴海",
+  "岸田省一": "Shoichi Kishida",
+  "Shoichi Kishida": "岸田省一",
+  "岸田毅": "Takeshi Kishida",
+  "Takeshi Kishida": "岸田毅",
+  "岸田雅仁": "Masahito Kishida",
+  "Masahito Kishida": "岸田雅仁",
+  "岸田ルツ": "Ruth Kishida",
+  "Ruth Kishida": "岸田ルツ",
+  "岸田デリア": "Delia Kishida",
+  "Delia Kishida": "岸田デリア",
+  "岸田アラン": "Aran Kishida",
+  "Aran Kishida": "岸田アラン",
+  "岸田シオン": "Shion Kishida",
+  "Shion Kishida": "岸田シオン",
+  "干場康秀": "Yasuhide Hoshiba",
+  "Yasuhide Hoshiba": "干場康秀",
+  "干場リリアナ": "Liliana Hoshiba",
+  "Liliana Hoshiba": "干場リリアナ",
+  "細田茂": "Shigeru Hosoda",
+  "Shigeru Hosoda": "細田茂",
+  "細田ローラ": "Laura Hosoda",
+  "Laura Hosoda": "細田ローラ",
+  "細田サンドラ": "Sandra Hosoda",
+  "Sandra Hosoda": "細田サンドラ",
+  "栄田寛三": "Kanzo Eida",
+  "Kanzo Eida": "栄田寛三",
+  "栄田ベンジ": "Benji Eida",
+  "Benji Eida": "栄田ベンジ",
+  "栄田きざし": "Kizashi Eida",
+  "Kizashi Eida": "栄田きざし",
+  "大石美智子": "Michiko Oishi",
+  "Michiko Oishi": "大石美智子",
+  "大石千明": "Chiaki Oishi",
+  "Chiaki Oishi": "大石千明",
+  "合田マリア": "Maria Goda",
+  "Maria Goda": "合田マリア",
+  "つくだよこ": "Yoko Tsukuda",
+  "Yoko Tsukuda": "つくだよこ",
+  "マルセロ・コレア": "Marcelo Correa",
+  "Marcelo Correa": "マルセロ・コレア",
+};
+
+
 const HIMNOS_ESP = {
   1: {
     es: "1 Cantad Alegres al Señor",
@@ -1729,6 +1783,7 @@ function InfoTip({
 function ACInput({
   value,
   onChange,
+  onChangePaired,
   placeholder
 }) {
   const [names] = useState(loadNames);
@@ -1749,6 +1804,10 @@ function ACInput({
     setQuery(name);
     onChange(name);
     setSuggestions([]);
+    // Auto-fill paired field if match exists
+    if (onChangePaired && NAME_PAIRS[name]) {
+      onChangePaired(NAME_PAIRS[name]);
+    }
   };
   const handleKey = e => {
     if (!suggestions.length) return;
@@ -1954,6 +2013,7 @@ function BF({
   })), /*#__PURE__*/React.createElement(ACInput, {
     value: data[field + "_jp"] || "",
     onChange: v => onChange(field + "_jp", v),
+    onChangePaired: v => onChange(field + "_es", v),
     placeholder: "\u65E5\u672C\u8A9E"
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "field-label-row"
@@ -1965,6 +2025,7 @@ function BF({
   }, label, " \uD83C\uDDF5\uD83C\uDDFE")), /*#__PURE__*/React.createElement(ACInput, {
     value: data[field + "_es"] || "",
     onChange: v => onChange(field + "_es", v),
+    onChangePaired: v => onChange(field + "_jp", v),
     placeholder: "Espa\xF1ol"
   })));
 }

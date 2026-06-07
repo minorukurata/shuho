@@ -1790,8 +1790,9 @@ function ACInput({
   const [query, setQuery] = useState(value);
   const [suggestions, setSuggestions] = useState([]);
   const [selIdx, setSelIdx] = useState(-1);
+  const externalUpdate = useRef(false);
   useEffect(() => {
-    if (value !== query) setQuery(value);
+    setQuery(value);
   }, [value]);
   const filter = q => {
     if (!q || q.length < 1) return setSuggestions([]);
@@ -1806,7 +1807,7 @@ function ACInput({
     setSuggestions([]);
     // Auto-fill paired field if match exists
     if (onChangePaired && NAME_PAIRS[name]) {
-      onChangePaired(NAME_PAIRS[name]);
+      setTimeout(() => onChangePaired(NAME_PAIRS[name]), 0);
     }
   };
   const handleKey = e => {

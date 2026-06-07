@@ -1791,7 +1791,7 @@ function ACInput({
   const [suggestions, setSuggestions] = useState([]);
   const [selIdx, setSelIdx] = useState(-1);
   useEffect(() => {
-    setQuery(value);
+    if (value !== query) setQuery(value);
   }, [value]);
   const filter = q => {
     if (!q || q.length < 1) return setSuggestions([]);
@@ -1848,7 +1848,10 @@ function ACInput({
       filter(e.target.value);
     },
     onKeyDown: handleKey,
-    onBlur: () => setTimeout(() => setSuggestions([]), 300)
+    onBlur: () => {
+      setTimeout(() => setSuggestions([]), 300);
+      onChange(query);
+    }
   }), suggestions.length > 0 && /*#__PURE__*/React.createElement("div", {
     className: "ac-list"
   }, suggestions.map((s, i) => /*#__PURE__*/React.createElement("div", {

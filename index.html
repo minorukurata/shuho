@@ -1825,6 +1825,7 @@ function ACInput({
   const [suggestions, setSuggestions] = useState([]);
   const [selIdx, setSelIdx] = useState(-1);
   const externalUpdate = useRef(false);
+  const isPicking = useRef(false);
   useEffect(() => {
     setQuery(value);
   }, [value]);
@@ -1836,13 +1837,14 @@ function ACInput({
     setSelIdx(-1);
   };
   const pick = name => {
+    isPicking.current = true;
     setQuery(name);
     onChange(name);
     setSuggestions([]);
-    // Auto-fill paired field if match exists
     if (onChangePaired && NAME_PAIRS[name]) {
       setTimeout(() => onChangePaired(NAME_PAIRS[name]), 0);
     }
+    setTimeout(() => { isPicking.current = false; }, 400);
   };
   const handleKey = e => {
     if (!suggestions.length) return;
@@ -1884,16 +1886,19 @@ function ACInput({
     },
     onKeyDown: handleKey,
     onBlur: () => {
-      setTimeout(() => setSuggestions([]), 300);
-      onChange(query);
+      setTimeout(() => {
+        if (!isPicking.current) setSuggestions([]);
+      }, 300);
+      // Solo commitear si no se está seleccionando una sugerencia
+      if (!isPicking.current) onChange(query);
     }
   }), suggestions.length > 0 && /*#__PURE__*/React.createElement("div", {
     className: "ac-list"
   }, suggestions.map((s, i) => /*#__PURE__*/React.createElement("div", {
     key: s,
     className: `ac-item${i === selIdx ? " sel" : ""}`,
-    onMouseDown: () => pick(s),
-    onTouchStart: () => pick(s)
+    onMouseDown: () => { isPicking.current = true; pick(s); },
+    onTouchStart: () => { isPicking.current = true; pick(s); }
   }, highlight(s)))));
 }
 

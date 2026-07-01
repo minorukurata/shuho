@@ -1,0 +1,2584 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#1C1508"/>
+<title>週報 — Iglesia Adventista Japonesa Paraguay</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&family=Cinzel:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--washi:#F5F0E8;--ink:#1A1410;--sumi:#1C1508;--gold:#C9991A;--aka:#7A1515;--mizu:#3D6B7A;--rule:#C8BFA8;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--washi);color:var(--ink);font-family:'Noto Serif JP',serif;overflow-x:hidden;}
+.hdr{position:sticky;top:0;z-index:200;background:var(--sumi);display:flex;align-items:center;justify-content:space-between;padding:16px 20px 13px;border-bottom:2px solid var(--gold);box-shadow:0 2px 16px rgba(0,0,0,.5);}
+.hdr-jp{font-family:'Cinzel',serif;font-size:20px;letter-spacing:6px;color:var(--gold);}
+.hdr-es{font-size:10px;letter-spacing:2px;color:#A89870;margin-top:2px;font-style:italic;}
+.hdr-date{font-size:11px;color:#8A7A60;font-family:'Noto Sans JP';text-align:right;line-height:1.7;}
+.tabs{display:flex;background:#1A150A;border-bottom:1px solid #3A3020;}
+.tab{flex:1;padding:11px 6px;font-size:11px;letter-spacing:1px;border:none;background:transparent;cursor:pointer;color:#7A6A50;font-family:'Noto Sans JP';border-bottom:2px solid transparent;transition:all .25s;}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.tab:hover:not(.active){background:rgba(255,255,255,.04);}
+.parallax-block{position:relative;overflow:hidden;height:160px;}
+.parallax-img{position:absolute;inset:-30% 0;width:100%;height:160%;object-fit:cover;will-change:transform;}
+.parallax-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:linear-gradient(to bottom,rgba(0,0,0,.35),rgba(0,0,0,.55));}
+.p-kanji{font-family:'Cinzel',serif;font-size:26px;letter-spacing:8px;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.7);}
+.p-romaji{font-size:10px;letter-spacing:4px;color:rgba(255,255,255,.65);font-family:'Noto Sans JP';}
+.time-badge{margin-top:6px;background:rgba(201,153,26,.88);color:#1A1410;font-size:10px;padding:2px 10px;border-radius:20px;letter-spacing:2px;font-family:'Noto Sans JP';font-weight:500;}
+.s-card{margin:0 12px;background:#fff;border:1px solid var(--rule);overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07);}
+.zoom-row{display:grid;grid-template-columns:96px 1fr;padding:10px 14px;border-bottom:1px solid #F0EBE0;align-items:start;gap:8px;will-change:transform,opacity;transform-origin:left center;}
+.zoom-row:last-child{border-bottom:none;}
+.r-lbl{font-size:10px;color:#AAA090;font-family:'Noto Sans JP';line-height:1.6;padding-top:3px;transition:color .3s;}
+.zoom-row.active .r-lbl{color:#6A5A48;}
+.r-val{display:flex;flex-direction:column;gap:3px;}
+.r-jp{font-size:13px;line-height:1.55;color:#9A8870;transition:color .3s;will-change:font-size;}
+.zoom-row.active .r-jp{color:var(--ink);}
+.r-es{font-size:11px;color:#B0C4CC;font-style:italic;line-height:1.5;transition:color .3s;}
+.zoom-row.active .r-es{color:var(--mizu);}
+.h-tag{display:inline-block;padding:1px 5px;border-radius:2px;font-size:9px;margin-right:3px;font-family:'Noto Sans JP';}
+.h-jp{background:var(--aka);color:#fff;}
+.h-es{background:var(--mizu);color:#fff;}
+.feliz{text-align:center;padding:14px 16px 10px;font-size:13px;color:var(--aka);font-weight:600;letter-spacing:2px;font-family:'Cinzel',serif;border-bottom:1px solid var(--rule);background:linear-gradient(180deg,#FDF6E8 0%,var(--washi) 100%);}
+.prayer{margin:20px 12px 0;background:linear-gradient(135deg,#1C1508 0%,#2E2210 100%);color:var(--washi);padding:16px;border-left:3px solid var(--gold);}
+.prayer-ttl{font-size:9px;letter-spacing:3px;color:var(--gold);margin-bottom:10px;font-family:'Noto Sans JP';}
+.p-zoom{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.07);font-family:'Noto Sans JP';will-change:font-size,opacity;transform-origin:left center;}
+.p-zoom:last-child{border-bottom:none;}
+.p-date{color:var(--gold);font-size:10px;min-width:34px;padding-top:2px;}
+.p-text{font-size:11px;color:rgba(255,255,255,.6);transition:color .3s;}
+.anuncio{margin:14px 12px 0;background:#FFF8EE;border:1px solid #E8D5A8;padding:14px;}
+.anuncio-ttl{font-size:9px;letter-spacing:3px;color:var(--gold);margin-bottom:8px;font-family:'Noto Sans JP';}
+.a-zoom{font-size:11px;padding:5px 0;border-bottom:1px dashed #DDD0A8;font-family:'Noto Sans JP';color:#B0A080;will-change:font-size,opacity;transform-origin:left center;transition:color .3s;}
+.a-zoom:last-child{border-bottom:none;}
+.footer{text-align:center;padding:28px 14px 40px;color:#9A8A78;font-size:10px;font-family:'Noto Sans JP';letter-spacing:1px;line-height:2;}
+.share-bar{margin:16px 12px 20px;}
+.share-btn{background:#128C7E;color:#fff;border:none;border-radius:3px;padding:13px;font-size:13px;width:100%;cursor:pointer;font-family:'Noto Sans JP';letter-spacing:1px;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s;}
+.share-btn:hover{background:#0A6B5E;}
+.reveal{opacity:0;transform:translateY(20px);}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--sumi);color:var(--washi);padding:10px 20px;border-radius:20px;font-size:11px;font-family:'Noto Sans JP';border:1px solid var(--gold);z-index:999;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateX(-50%) translateY(10px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+.ed-wrap{margin:12px;}
+.ed-group{background:#fff;border:1px solid var(--rule);padding:14px;margin-bottom:12px;}
+.ed-grp-ttl{display:block;font-size:9px;letter-spacing:3px;background:var(--sumi);color:var(--gold);padding:6px 10px;margin-bottom:10px;}
+.ed-lbl{display:block;font-size:10px;color:#7A6A56;letter-spacing:1px;margin-bottom:4px;font-family:'Noto Sans JP';}
+.ed-in{width:100%;padding:8px 10px;border:1px solid var(--rule);border-radius:2px;font-family:'Noto Sans JP';font-size:12px;background:#FDFAF5;color:var(--ink);margin-bottom:10px;outline:none;transition:border-color .2s;}
+.ed-in:focus{border-color:var(--mizu);}
+.ed-bi{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.btn-ok{background:var(--aka);color:#fff;border:none;padding:12px;width:100%;font-family:'Noto Sans JP';font-size:13px;letter-spacing:2px;cursor:pointer;transition:background .2s;}
+.btn-ok:hover{background:#5A1010;}
+.btn-reset{background:transparent;color:#8A7A60;border:1px solid #C8BFA8;padding:10px;width:100%;font-family:'Noto Sans JP';font-size:11px;letter-spacing:2px;cursor:pointer;transition:all .2s;}
+.btn-reset:hover{background:#F0E8D8;color:var(--aka);border-color:var(--aka);}
+
+/* ── HYMN LIST MODAL ── */
+.hymn-modal-overlay{
+  position:fixed;inset:0;z-index:600;
+  background:rgba(0,0,0,.85);
+  display:flex;align-items:flex-end;
+  animation:overlayIn .3s ease;
+}
+.hymn-modal{
+  background:#1C1508;
+  border:1px solid var(--gold);
+  border-bottom:none;
+  border-radius:6px 6px 0 0;
+  width:100%;
+  max-height:80vh;
+  display:flex;flex-direction:column;
+  box-shadow:0 -4px 30px rgba(0,0,0,.6);
+}
+.hymn-modal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px 10px;
+  border-bottom:1px solid rgba(201,153,26,.25);
+  flex-shrink:0;
+}
+.hymn-modal-title{font-family:'Cinzel',serif;font-size:14px;letter-spacing:3px;color:var(--gold);}
+.hymn-modal-close{background:transparent;border:1px solid rgba(201,153,26,.3);color:var(--gold);padding:4px 10px;border-radius:2px;cursor:pointer;font-size:12px;}
+.hymn-search{
+  margin:10px 12px 8px;flex-shrink:0;
+}
+.hymn-search input{
+  width:100%;padding:9px 12px;background:#0E0B04;
+  border:1px solid rgba(201,153,26,.3);border-radius:2px;
+  color:var(--washi);font-family:'Noto Sans JP';font-size:13px;outline:none;
+}
+.hymn-search input:focus{border-color:var(--gold);}
+.hymn-list-scroll{overflow-y:auto;flex:1;padding:0 0 20px;}
+.hymn-row{
+  display:grid;grid-template-columns:44px 1fr 1fr;
+  padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.05);
+  cursor:pointer;transition:background .15s;align-items:center;gap:8px;
+}
+.hymn-row:hover,.hymn-row:active{background:rgba(201,153,26,.12);}
+.hymn-num{color:var(--gold);font-size:12px;font-family:'Noto Sans JP';font-weight:600;}
+.hymn-jp{font-size:12px;color:var(--washi);font-family:'Noto Serif JP';}
+.hymn-es{font-size:11px;color:#8ABBC8;font-style:italic;}
+
+/* ── TOOLTIP INFO ── */
+.info-wrap{position:relative;display:inline-flex;align-items:center;margin-left:5px;vertical-align:middle;}
+.info-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:15px;height:15px;border-radius:50%;border:1px solid var(--mizu);
+  background:rgba(61,107,122,0.15);color:var(--mizu);font-size:9px;
+  cursor:pointer;font-weight:700;font-family:'Noto Sans JP';
+  line-height:1;flex-shrink:0;
+}
+.info-tooltip{
+  position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
+  background:#0E1A20;border:1px solid var(--mizu);border-radius:3px;
+  padding:8px 10px;min-width:180px;max-width:240px;
+  font-size:10px;color:#C8DDE4;font-family:'Noto Sans JP';line-height:1.6;
+  box-shadow:0 4px 16px rgba(0,0,0,.6);z-index:400;
+  white-space:pre-line;
+}
+.info-tooltip::after{
+  content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  border:5px solid transparent;border-top-color:var(--mizu);
+}
+.field-label-row{display:flex;align-items:center;margin-bottom:4px;}
+
+/* ── HIMNO INPUT ── */
+.himno-wrap{position:relative;width:100%;}
+.himno-in{
+  width:100%;padding:8px 10px;border:1px solid var(--gold);border-radius:2px;
+  font-family:'Noto Sans JP';font-size:12px;background:#1C1508;color:var(--gold);
+  margin-bottom:0;outline:none;transition:border-color .2s;
+  letter-spacing:1px;
+}
+.himno-in:focus{border-color:#F0C030;box-shadow:0 0 0 2px rgba(201,153,26,.2);}
+.himno-in::placeholder{color:#5A4A28;}
+.himno-preview{
+  font-size:10px;color:#A89060;font-family:'Noto Sans JP';
+  padding:3px 10px 5px;font-style:italic;
+  border:1px solid rgba(201,153,26,.2);border-top:none;background:#120E04;
+}
+
+/* ── AUTOCOMPLETE ── */
+.ac-wrap{position:relative;width:100%;}
+.ac-list{
+  position:absolute;top:100%;left:0;right:0;z-index:300;
+  background:#1C1508;border:1px solid var(--gold);
+  border-top:none;border-radius:0 0 3px 3px;
+  max-height:160px;overflow-y:auto;
+  box-shadow:0 4px 12px rgba(0,0,0,.5);
+}
+.ac-item{
+  padding:9px 12px;font-size:12px;font-family:'Noto Sans JP';
+  color:#D4C9A8;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.06);
+  transition:background .15s;
+}
+.ac-item:last-child{border-bottom:none;}
+.ac-item:hover,.ac-item.sel{background:rgba(201,153,26,.18);color:var(--gold);}
+.ac-match{color:var(--gold);font-weight:600;}
+
+/* ── POPUP ── */
+.popup-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(10,8,4,0.82);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  animation:overlayIn .5s ease;
+}
+.popup-overlay.out{animation:overlayOut .6s ease forwards;}
+@keyframes overlayIn{from{opacity:0;}to{opacity:1;}}
+@keyframes overlayOut{from{opacity:1;}to{opacity:0;}}
+
+.popup-card{
+  background:linear-gradient(160deg,#2A1F0A 0%,#1C1508 60%,#0E0B04 100%);
+  border:1px solid var(--gold);
+  border-radius:4px;
+  padding:24px 20px 20px;
+  width:100%;max-width:360px;
+  position:relative;
+  box-shadow:0 0 40px rgba(201,153,26,0.25), 0 0 80px rgba(0,0,0,0.8);
+  animation:cardIn .6s cubic-bezier(.16,1,.3,1);
+}
+.popup-card.out{animation:cardOut .5s ease forwards;}
+@keyframes cardIn{from{opacity:0;transform:translateY(30px) scale(.96);}to{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes cardOut{from{opacity:1;transform:scale(1);}to{opacity:0;transform:scale(.94);}}
+
+.popup-glow{
+  position:absolute;top:-1px;left:50%;transform:translateX(-50%);
+  width:60%;height:2px;
+  background:linear-gradient(to right,transparent,var(--gold),transparent);
+}
+.popup-icon{text-align:center;font-size:28px;margin-bottom:8px;}
+.popup-ttl-jp{font-family:'Cinzel',serif;font-size:18px;letter-spacing:4px;color:var(--gold);text-align:center;margin-bottom:2px;}
+.popup-ttl-es{font-size:9px;letter-spacing:3px;color:#8A7A50;text-align:center;margin-bottom:16px;font-family:'Noto Sans JP';}
+.popup-divider{border:none;border-top:1px solid rgba(201,153,26,0.25);margin:12px 0;}
+.popup-item{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);
+}
+.popup-item:last-child{border-bottom:none;}
+.popup-dot{color:var(--gold);font-size:14px;min-width:16px;margin-top:1px;}
+.popup-text{font-size:12px;color:#D4C9A8;font-family:'Noto Sans JP';line-height:1.6;}
+.popup-empty{font-size:11px;color:#5A5040;font-family:'Noto Sans JP';text-align:center;padding:10px 0;font-style:italic;}
+.popup-close{
+  margin-top:18px;width:100%;background:rgba(201,153,26,0.12);
+  border:1px solid rgba(201,153,26,0.35);color:var(--gold);
+  padding:10px;font-family:'Noto Sans JP';font-size:11px;letter-spacing:2px;
+  cursor:pointer;border-radius:2px;transition:all .2s;
+}
+.popup-close:hover{background:rgba(201,153,26,0.22);}
+.popup-timer{
+  height:2px;background:rgba(201,153,26,0.2);margin-top:14px;border-radius:1px;overflow:hidden;
+}
+.popup-timer-bar{
+  height:100%;background:var(--gold);
+  animation:timerDown 6s linear forwards;
+  transform-origin:left;
+}
+@keyframes timerDown{from{width:100%;}to{width:0%;}}
+
+/* ── PEDIDOS DE ORACIÓN sección ── */
+.pedidos{margin:14px 12px 0;background:linear-gradient(135deg,#0E1A1F 0%,#162028 100%);border-left:3px solid var(--mizu);padding:16px;}
+.pedidos-ttl{font-size:9px;letter-spacing:3px;color:var(--mizu);margin-bottom:10px;font-family:'Noto Sans JP';}
+.pedido-item{display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.06);font-family:'Noto Sans JP';}
+.pedido-item:last-child{border-bottom:none;}
+.pedido-num{color:var(--mizu);font-size:10px;min-width:18px;padding-top:2px;}
+.pedido-text{font-size:12px;color:rgba(255,255,255,.7);line-height:1.5;}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const {
+  useState,
+  useEffect,
+  useRef
+} = React;
+
+/* ── GSAP loader ── */
+function useGSAP(cb, deps = []) {
+  useEffect(() => {
+    let cleanup;
+    const load = async () => {
+      if (!window.gsap) {
+        await new Promise(res => {
+          const s = document.createElement("script");
+          s.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js";
+          s.onload = res;
+          document.head.appendChild(s);
+        });
+      }
+      if (!window.ScrollTrigger) {
+        await new Promise(res => {
+          const s = document.createElement("script");
+          s.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js";
+          s.onload = res;
+          document.head.appendChild(s);
+        });
+        window.gsap.registerPlugin(window.ScrollTrigger);
+      }
+      cleanup = cb(window.gsap, window.ScrollTrigger);
+    };
+    load();
+    return () => {
+      if (typeof cleanup === "function") cleanup();
+    };
+  }, deps);
+}
+
+/* ── Datos iniciales ── */
+const initialData = {
+  fecha: "13/06/2026",
+  feliz: "¡¡¡FELIZ SÁBADO!!!　幸せな安息日を！",
+  culto: {
+    presentador_jp: "細田茂",
+    presentador_es: "Shigeru Hosoda",
+    himno1_jp: "1 あめつちこぞりて",
+    himno1_es: "20 A Dios, el padre celestial",
+    oracion1_jp: "倉田伸寿",
+    oracion1_es: "Shinju Kurata",
+    himno2_jp: "28 子羊をば",
+    himno2_es: "156 A Cristo coronad",
+    lecturaBiblica_jp: "詩篇 120",
+    lecturaBiblica_es: "Salmos 120",
+    oracion2_jp: "細田茂",
+    oracion2_es: "Shigeru Hosoda",
+    ofrenda_jp: "干場リリアナ",
+    ofrenda_es: "Liliana de Hoshiba",
+    ninos_jp: "ビデオ",
+    ninos_es: "Video",
+    himnoEspecial_jp: "—",
+    himnoEspecial_es: "—",
+    sermon_jp: "倉田伸寿",
+    sermon_es: "Shinju Kurata",
+    himno3_jp: "215 十字架の血に",
+    himno3_es: "238 Yo escucho, buen Jesús",
+    oracion3_jp: "倉田伸寿",
+    oracion3_es: "Shinju Kurata",
+    musica_jp: "岸田しおん/Laura/Aran",
+    musica_es: "岸田しおん/Laura/Aran",
+    oracionFinal_jp: "司会者",
+    oracionFinal_es: "Presentador"
+  },
+  escuela: {
+    director_jp: "栄田寛三",
+    director_es: "Kanzo Eida",
+    alabanzas_jp: "岸田雅仁",
+    alabanzas_es: "Fernando Kishida",
+    himno_jp: "希望191 きよき朝よ",
+    himno_es: "545 Santo dia",
+    oracion_jp: "栄田寛三",
+    oracion_es: "Kanzo Eida",
+    misionero_jp: "ビデオ",
+    misionero_es: "Video",
+    leccion_jp: "倉田伸寿",
+    leccion_es: "Shinju Kurata",
+    himno2_jp: "128 主なる神に",
+    himno2_es: "147 A Dios sea gloria",
+    oracion2_jp: "干場康秀",
+    oracion2_es: "Sixto Hoshiba"
+  },
+  anuncios: {
+    anciano_jp: "細田茂",
+    anciano_es: "Shigeru Hosoda",
+    sermon_sig_jp: "細田茂",
+    sermon_sig_es: "Shigeru Hosoda",
+    limpieza_jp: "倉田ファミリー",
+    limpieza_es: "Flia. Kurata",
+    nota: ""
+  },
+  oraciones: [{
+    fecha: "13/06",
+    texto: "Flia. Eida"
+  }, {
+    fecha: "14/06",
+    texto: "Flia. Kurata"
+  }, {
+    fecha: "15/06",
+    texto: "Flia. Hoshiba"
+  }, {
+    fecha: "16/06",
+    texto: "Flia. Kishida"
+  }, {
+    fecha: "17/06",
+    texto: "Flia. Hosoda"
+  }, {
+    fecha: "18/06",
+    texto: "Hermanos que no asisten frecuentemente"
+  }, {
+    fecha: "19/06",
+    texto: "Obreros y funcionarios de la iglesia en Py"
+  }],
+  popupAnuncios: ["6月 母の日・父の日集会 / Reunión Día de la Madre y del Padre"],
+  pedidosOracion: ["Flia. Nakamura — salud", "Agradecimiento por las bendiciones recibidas"]
+};
+const HERO_ESCUELA = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80";
+const HERO_CULTO = "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=80";
+const STORAGE_KEY = "shuho_data_v1";
+const NAMES_KEY = "shuho_names_v1";
+const GIST_RAW = "https://gist.githubusercontent.com/minorukurata/b004c4eb5c2ab7023dc97c86bdff5c46/raw/shuho-data.json";
+const GIST_API = "https://api.github.com/gists/b004c4eb5c2ab7023dc97c86bdff5c46";
+const GIST_TOKEN = "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";
+const GIST_FILE = "shuho-data.json";
+
+async function loadFromCloud() {
+  try {
+    // Add timestamp to avoid cache
+    const res = await fetch(GIST_RAW + "?t=" + Date.now());
+    if (!res.ok) return null;
+    const json = await res.json();
+    return { ...initialData, ...json };
+  } catch(e) { return null; }
+}
+
+async function saveToCloud(data) {
+  try {
+    const res = await fetch(GIST_API, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "token " + GIST_TOKEN
+      },
+      body: JSON.stringify({
+        files: {
+          [GIST_FILE]: { content: JSON.stringify(data) }
+        }
+      })
+    });
+    return res.ok;
+  } catch(e) { return false; }
+}
+
+const PRESET_NAMES = [
+  "倉田稔",
+  "倉田薫",
+  "倉田マルタ",
+  "倉田美幸",
+  "倉田鳴海",
+  "岸田省一",
+  "岸田毅",
+  "岸田雅仁",
+  "岸田ルツ",
+  "岸田デリア",
+  "岸田アラン",
+  "岸田シオン",
+  "干場康秀",
+  "干場リリアナ",
+  "細田茂",
+  "細田ローラ",
+  "細田サンドラ",
+  "栄田寛三",
+  "栄田ベンジ",
+  "栄田きざし",
+  "大石美智子",
+  "大石千明",
+  "合田マリア",
+  "佃よこ",
+  "マルセロ・コレア",
+  "Minoru Kurata",
+  "Kaoru Kurata",
+  "Marta Kurata",
+  "Miyuki Kurata",
+  "Narumi Kurata",
+  "Shoichi Kishida",
+  "Takeshi Kishida",
+  "Masahito Kishida",
+  "Ruth Kishida",
+  "Delia Kishida",
+  "Aran Kishida",
+  "Shion Kishida",
+  "Yasuhide Hoshiba",
+  "Liliana Hoshiba",
+  "Shigeru Hosoda",
+  "Laura Hosoda",
+  "Sandra Hosoda",
+  "Kanzo Eida",
+  "Benji Eida",
+  "Kizashi Eida",
+  "Michiko Oishi",
+  "Chiaki Oishi",
+  "Maria Goda",
+  "Yoko Tsukuda",
+  "Marcelo Correa"
+,
+  "倉田伸寿",
+  "Shinju Kurata",
+  "倉田ケリー",
+  "Kelly de Kurata",
+  "マリア・テレサ",
+  "Maria Teresa"];
+
+const NAME_PAIRS = {
+  "倉田稔": "Minoru Kurata",
+  "Minoru Kurata": "倉田稔",
+  "倉田薫": "Kaoru Kurata",
+  "Kaoru Kurata": "倉田薫",
+  "倉田マルタ": "Marta Kurata",
+  "Marta Kurata": "倉田マルタ",
+  "倉田美幸": "Miyuki Kurata",
+  "Miyuki Kurata": "倉田美幸",
+  "倉田鳴海": "Narumi Kurata",
+  "Narumi Kurata": "倉田鳴海",
+  "岸田省一": "Shoichi Kishida",
+  "Shoichi Kishida": "岸田省一",
+  "岸田毅": "Takeshi Kishida",
+  "Takeshi Kishida": "岸田毅",
+  "岸田雅仁": "Masahito Kishida",
+  "Masahito Kishida": "岸田雅仁",
+  "岸田ルツ": "Ruth Kishida",
+  "Ruth Kishida": "岸田ルツ",
+  "岸田デリア": "Delia Kishida",
+  "Delia Kishida": "岸田デリア",
+  "岸田アラン": "Aran Kishida",
+  "Aran Kishida": "岸田アラン",
+  "岸田シオン": "Shion Kishida",
+  "Shion Kishida": "岸田シオン",
+  "干場康秀": "Yasuhide Hoshiba",
+  "Yasuhide Hoshiba": "干場康秀",
+  "干場リリアナ": "Liliana Hoshiba",
+  "Liliana Hoshiba": "干場リリアナ",
+  "細田茂": "Shigeru Hosoda",
+  "Shigeru Hosoda": "細田茂",
+  "細田ローラ": "Laura Hosoda",
+  "Laura Hosoda": "細田ローラ",
+  "細田サンドラ": "Sandra Hosoda",
+  "Sandra Hosoda": "細田サンドラ",
+  "栄田寛三": "Kanzo Eida",
+  "Kanzo Eida": "栄田寛三",
+  "栄田ベンジ": "Benji Eida",
+  "Benji Eida": "栄田ベンジ",
+  "栄田きざし": "Kizashi Eida",
+  "Kizashi Eida": "栄田きざし",
+  "大石美智子": "Michiko Oishi",
+  "Michiko Oishi": "大石美智子",
+  "大石千明": "Chiaki Oishi",
+  "Chiaki Oishi": "大石千明",
+  "合田マリア": "Maria Goda",
+  "Maria Goda": "合田マリア",
+  "佃よこ": "Yoko Tsukuda",
+  "Yoko Tsukuda": "佃よこ",
+  "マルセロ・コレア": "Marcelo Correa",
+  "Marcelo Correa": "マルセロ・コレア",
+};
+
+
+const HIMNOS_ESP = {
+  1: {
+    es: "1 Cantad Alegres al Señor",
+    jpn: 10,
+    jp: "10 世界をつくりし"
+  },
+  2: {
+    es: "2 Da gloria al Señor",
+    jpn: 124,
+    jp: "124 主を拝め"
+  },
+  10: {
+    es: "10 Alaba al Dios de Abraham",
+    jpn: 316,
+    jp: "316 主のまことは"
+  },
+  15: {
+    es: "15 Loamoste ¡oh Dios!",
+    jpn: 421,
+    jp: "421 ほめうたえ ひとり子イェス"
+  },
+  17: {
+    es: "17 Oh Padre, eterno Dios",
+    jpn: 6,
+    jp: "6 よろずのもの"
+  },
+  20: {
+    es: "20 A Dios, el padre celestial",
+    jpn: 1,
+    jp: "1 あめつちこぞりて"
+  },
+  37: {
+    es: "37 Dios os guarde",
+    jpn: 387,
+    jp: "387 神ともにいまして"
+  },
+  51: {
+    es: "51 Nuestro sol se pone ya",
+    jpn: 202,
+    jp: "202 たそがれややに"
+  },
+  52: {
+    es: "52 Señor Jesús, el día ya se fue",
+    jpn: 205,
+    jp: "205 日暮れて"
+  },
+  61: {
+    es: "61 Santo, Santo, Santo, Deus Omnipotente",
+    jpn: 2,
+    jp: "2 聖なる聖なる"
+  },
+  65: {
+    es: "65 El mundo es de mi Dios",
+    jpn: 14,
+    jp: "14 ここは神の"
+  },
+  67: {
+    es: "67 ¡Señor, yo te conozco!",
+    jpn: 8,
+    jp: "8 み神の力を"
+  },
+  69: {
+    es: "69 Señor, mi Dios",
+    jpn: 126,
+    jp: "126 輝く日を仰ぐとき"
+  },
+  73: {
+    es: "73 La creación",
+    jpn: 12,
+    jp: "12 果てしも知られぬ"
+  },
+  79: {
+    es: "79 Se oye un canto en alta esfera",
+    jpn: 39,
+    jp: "39 あめには栄え"
+  },
+  81: {
+    es: "81 Noche de paz",
+    jpn: 51,
+    jp: "51 きよしこの夜"
+  },
+  93: {
+    es: "93 Hubo Uno que quiso",
+    jpn: 295,
+    jp: "295 生くる甲斐もなしと"
+  },
+  97: {
+    es: "97 En el monte Calvario",
+    jpn: 298,
+    jp: "298 丘に立てる主の十字架は"
+  },
+  100: {
+    es: "100 ¡Dulces momentos!",
+    jpn: 277,
+    jp: "277 悩むものよ侘人よ"
+  },
+  107: {
+    es: "107 Canto el gran amor",
+    jpn: 256,
+    jp: "256 うたえ主の愛"
+  },
+  108: {
+    es: "108 Amigo fiel es Cristo",
+    jpn: 351,
+    jp: "351 主イェスはわれの"
+  },
+  119: {
+    es: "119 De su trono, mí Jesús",
+    jpn: 251,
+    jp: "251 主われを愛す"
+  },
+  137: {
+    es: "137 De Jesús el nombre invoca",
+    jpn: 311,
+    jp: "311 イェス君のみ名は"
+  },
+  147: {
+    es: "147 A Dios sea gloria",
+    jpn: 128,
+    jp: "128 主なる神に"
+  },
+  154: {
+    es: "154 Dad gloria al Cordero Rey",
+    jpn: 27,
+    jp: "27 あまつみ使いよ"
+  },
+  156: {
+    es: "156 A Cristo coronad",
+    jpn: 28,
+    jp: "28 小羊をば"
+  },
+  162: {
+    es: "162 En presencia estar de Cristo",
+    jpn: 413,
+    jp: "413 わが罪のために"
+  },
+  163: {
+    es: "163 Cristo viene, esto es cierto",
+    jpn: 433,
+    jp: "433 目覚めよわが友"
+  },
+  165: {
+    es: "165 ¡Vendrá el Señor!",
+    jpn: 432,
+    jp: "432 再臨の しるしは見えて"
+  },
+  166: {
+    es: "166 Siervos de Dios, la trompeta tocad",
+    jpn: 423,
+    jp: "423 つのぶえを吹き鳴らせ"
+  },
+  190: {
+    es: "190 Santo Espíritu de Cristo",
+    jpn: 102,
+    jp: "102 みたまよくだりて"
+  },
+  195: {
+    es: "195 Abre mis ojos a la luz",
+    jpn: 152,
+    jp: "152 わが目を開きて"
+  },
+  196: {
+    es: "196 Santo Espíritu de Dios",
+    jpn: 99,
+    jp: "99 みたまの神よ"
+  },
+  204: {
+    es: "204 Oh, cantádmelas otra vez",
+    jpn: 148,
+    jp: "148 いのちのみ言葉"
+  },
+  205: {
+    es: "205 Dadme la Biblia",
+    jpn: 146,
+    jp: "146 み言葉を与えたまえ"
+  },
+  211: {
+    es: "211 Fija tus ojos en Cristo",
+    jpn: 273,
+    jp: "273 暗き道に迷い"
+  },
+  213: {
+    es: "213 Tierno y amante, Jesús nos invita",
+    jpn: 270,
+    jp: "270 イェスは今も招きたもう"
+  },
+  245: {
+    es: "245 Cúmplase, oh Cristo, tu voluntad",
+    jpn: 362,
+    jp: "362 なしたまえみ旨を"
+  },
+  246: {
+    es: "246 Te quiero, mi Señor",
+    jpn: 350,
+    jp: "350 恵み深き主のほか"
+  },
+  249: {
+    es: "249 Tal como soy",
+    jpn: 213,
+    jp: "213 いさおなきわれを"
+  },
+  255: {
+    es: "255 Oh Cristo, te adoro",
+    jpn: 334,
+    jp: "334 主よわが主よ"
+  },
+  260: {
+    es: "260 Junto a la cruz de Cristo",
+    jpn: 85,
+    jp: "85 十字架のもとぞ"
+  },
+  266: {
+    es: "266 Vivo por Cristo",
+    jpn: 150,
+    jp: "150 主のためにわれは生く"
+  },
+  269: {
+    es: "269 Prefiero a mi Cristo",
+    jpn: 364,
+    jp: "364 キリストには代えられません"
+  },
+  293: {
+    es: "293 ¿Quieres ser salvo de toda maldad?",
+    jpn: 290,
+    jp: "290 罪 重荷を除くは"
+  },
+  294: {
+    es: "294 En Jesús por fe confío",
+    jpn: 314,
+    jp: "314 深き恵みもて"
+  },
+  296: {
+    es: "296 Comprado con sangre por Cristo",
+    jpn: 292,
+    jp: "292 主の血にあがなわれ"
+  },
+  297: {
+    es: "297 Salvo con sangre por Cristo",
+    jpn: 294,
+    jp: "294 十字架の血潮もて"
+  },
+  301: {
+    es: "301 Cristo es mi amante Salvador",
+    jpn: 386,
+    jp: "386 イェスはわがすべて"
+  },
+  307: {
+    es: "307 Roca de la eternidad",
+    jpn: 331,
+    jp: "331 千歳の岩よ"
+  },
+  316: {
+    es: "316 Hay un mundo más feliz más allá",
+    jpn: 410,
+    jp: "410 はるかにあおぎ見る"
+  },
+  328: {
+    es: "328 ¿Nos veremos junto al río?",
+    jpn: 395,
+    jp: "395 まもなくかなたの"
+  },
+  360: {
+    es: "360 En Jesucristo, mártir de paz",
+    jpn: 214,
+    jp: "214 ああうれしわが身も"
+  },
+  376: {
+    es: "376 Dulce oración",
+    jpn: 352,
+    jp: "352 静けき祈りの"
+  },
+  378: {
+    es: "378 ¡Oh, qué amigo nos es Cristo!",
+    jpn: 252,
+    jp: "252 いつくしみ深き"
+  },
+  391: {
+    es: "391 ¿Le importará a Jesús?",
+    jpn: 380,
+    jp: "380 けわしき世の旅に"
+  },
+  395: {
+    es: "395 ¡Oh, cuán dulce es fiar en Cristo!",
+    jpn: 330,
+    jp: "330 主と主の言葉に"
+  },
+  400: {
+    es: "400 Castillo fuerte es nuestro Dios",
+    jpn: 317,
+    jp: "317 神はわがやぐら"
+  },
+  404: {
+    es: "404 A cualquiera parte",
+    jpn: 327,
+    jp: "327 わが主の導くところ"
+  },
+  408: {
+    es: "408 Cristo me ayuda por él a vivir",
+    jpn: 258,
+    jp: "258 ひとたびは死にし身も"
+  },
+  411: {
+    es: "411 Bajo sus alas",
+    jpn: 312,
+    jp: "312 わが主のつばさのかげに"
+  },
+  415: {
+    es: "415 Salvo en los tiernos brazos",
+    jpn: 313,
+    jp: "313 イェスのみ腕に"
+  },
+  420: {
+    es: "420 Nunca desmayes",
+    jpn: 315,
+    jp: "315 この世の旅路に"
+  },
+  444: {
+    es: "444 No me pases",
+    jpn: 358,
+    jp: "358 イェス君イェス君"
+  },
+  446: {
+    es: "446 Más cerca, oh Dios, de ti",
+    jpn: 344,
+    jp: "344 主よみもとに"
+  },
+  451: {
+    es: "451 Cerca, más cerca",
+    jpn: 332,
+    jp: "332 より近くわが主の"
+  },
+  469: {
+    es: "469 Jesús me guía",
+    jpn: 346,
+    jp: "346 いつくしみ深き"
+  },
+  487: {
+    es: "487 Doxología",
+    jpn: 0,
+    jp: ""
+  },
+  506: {
+    es: "506 ¡De pie, de pie, cristianos!",
+    jpn: 306,
+    jp: "306 たてよいざたて"
+  },
+  529: {
+    es: "529 Iglesia de Cristo",
+    jpn: 109,
+    jp: "109 あめつちの"
+  },
+  541: {
+    es: "541 Señor, reposamos",
+    jpn: 42,
+    jp: "42 神のみ子は今宵しも"
+  },
+  545: {
+    es: "545 Santo dia",
+    jpn: 191,
+    jp: "191 きよき朝よ"
+  },
+  549: {
+    es: "549 Ya el fin se acerca",
+    jpn: 194,
+    jp: "194 あさかぜ静かに吹きて"
+  },
+  550: {
+    es: "550 Día santo del Señor",
+    jpn: 20,
+    jp: "20 神は日ごとに"
+  },
+  562: {
+    es: "562 Esparcid la luz de Cristo",
+    jpn: 240,
+    jp: "240 灯台ははるか"
+  },
+  580: {
+    es: "580 Las aguas del bautismo",
+    jpn: 340,
+    jp: "340 恵みの泉よ"
+  },
+  581: {
+    es: "581 El Pan de vida soy",
+    jpn: 145,
+    jp: "145 主よいのちの"
+  },
+  589: {
+    es: "589 Perfecto amor",
+    jpn: 230,
+    jp: "230 きよき愛"
+  }
+};
+const HIMNOS_JPN = {
+  1: {
+    jp: "1 あめつちこぞりて",
+    esp: 20,
+    es: "20 A Dios, el padre celestial"
+  },
+  2: {
+    jp: "2 聖なる聖なる",
+    esp: 61,
+    es: "61 Santo, Santo, Santo, Deus Omnipotente"
+  },
+  6: {
+    jp: "6 よろずのもの",
+    esp: 17,
+    es: "17 Oh Padre, eterno Dios"
+  },
+  8: {
+    jp: "8 み神の力を",
+    esp: 67,
+    es: "67 ¡Señor, yo te conozco!"
+  },
+  10: {
+    jp: "10 世界をつくりし",
+    esp: 1,
+    es: "1 Cantad Alegres al Señor"
+  },
+  12: {
+    jp: "12 果てしも知られぬ",
+    esp: 73,
+    es: "73 La creación"
+  },
+  14: {
+    jp: "14 ここは神の",
+    esp: 65,
+    es: "65 El mundo es de mi Dios"
+  },
+  20: {
+    jp: "20 神は日ごとに",
+    esp: 550,
+    es: "550 Día santo del Señor"
+  },
+  27: {
+    jp: "27 あまつみ使いよ",
+    esp: 154,
+    es: "154 Dad gloria al Cordero Rey"
+  },
+  28: {
+    jp: "28 小羊をば",
+    esp: 156,
+    es: "156 A Cristo coronad"
+  },
+  39: {
+    jp: "39 あめには栄え",
+    esp: 79,
+    es: "79 Se oye un canto en alta esfera"
+  },
+  42: {
+    jp: "42 神のみ子は今宵しも",
+    esp: 541,
+    es: "541 Señor, reposamos"
+  },
+  51: {
+    jp: "51 きよしこの夜",
+    esp: 81,
+    es: "81 Noche de paz"
+  },
+  85: {
+    jp: "85 十字架のもとぞ",
+    esp: 260,
+    es: "260 Junto a la cruz de Cristo"
+  },
+  99: {
+    jp: "99 みたまの神よ",
+    esp: 196,
+    es: "196 Santo Espíritu de Dios"
+  },
+  102: {
+    jp: "102 みたまよくだりて",
+    esp: 190,
+    es: "190 Santo Espíritu de Cristo"
+  },
+  109: {
+    jp: "109 あめつちの",
+    esp: 529,
+    es: "529 Iglesia de Cristo"
+  },
+  124: {
+    jp: "124 主を拝め",
+    esp: 2,
+    es: "2 Da gloria al Señor"
+  },
+  126: {
+    jp: "126 輝く日を仰ぐとき",
+    esp: 69,
+    es: "69 Señor, mi Dios"
+  },
+  128: {
+    jp: "128 主なる神に",
+    esp: 147,
+    es: "147 A Dios sea gloria"
+  },
+  145: {
+    jp: "145 主よいのちの",
+    esp: 581,
+    es: "581 El Pan de vida soy"
+  },
+  146: {
+    jp: "146 み言葉を与えたまえ",
+    esp: 205,
+    es: "205 Dadme la Biblia"
+  },
+  148: {
+    jp: "148 いのちのみ言葉",
+    esp: 204,
+    es: "204 Oh, cantádmelas otra vez"
+  },
+  150: {
+    jp: "150 主のためにわれは生く",
+    esp: 266,
+    es: "266 Vivo por Cristo"
+  },
+  152: {
+    jp: "152 わが目を開きて",
+    esp: 195,
+    es: "195 Abre mis ojos a la luz"
+  },
+  191: {
+    jp: "191 きよき朝よ",
+    esp: 545,
+    es: "545 Santo dia"
+  },
+  194: {
+    jp: "194 あさかぜ静かに吹きて",
+    esp: 549,
+    es: "549 Ya el fin se acerca"
+  },
+  202: {
+    jp: "202 たそがれややに",
+    esp: 51,
+    es: "51 Nuestro sol se pone ya"
+  },
+  205: {
+    jp: "205 日暮れて",
+    esp: 52,
+    es: "52 Señor Jesús, el día ya se fue"
+  },
+  213: {
+    jp: "213 いさおなきわれを",
+    esp: 249,
+    es: "249 Tal como soy"
+  },
+  214: {
+    jp: "214 ああうれしわが身も",
+    esp: 360,
+    es: "360 En Jesucristo, mártir de paz"
+  },
+  230: {
+    jp: "230 きよき愛",
+    esp: 589,
+    es: "589 Perfecto amor"
+  },
+  240: {
+    jp: "240 灯台ははるか",
+    esp: 562,
+    es: "562 Esparcid la luz de Cristo"
+  },
+  251: {
+    jp: "251 主われを愛す",
+    esp: 119,
+    es: "119 De su trono, mí Jesús"
+  },
+  252: {
+    jp: "252 いつくしみ深き",
+    esp: 378,
+    es: "378 ¡Oh, qué amigo nos es Cristo!"
+  },
+  256: {
+    jp: "256 うたえ主の愛",
+    esp: 107,
+    es: "107 Canto el gran amor"
+  },
+  258: {
+    jp: "258 ひとたびは死にし身も",
+    esp: 408,
+    es: "408 Cristo me ayuda por él a vivir"
+  },
+  270: {
+    jp: "270 イェスは今も招きたもう",
+    esp: 213,
+    es: "213 Tierno y amante, Jesús nos invita"
+  },
+  273: {
+    jp: "273 暗き道に迷い",
+    esp: 211,
+    es: "211 Fija tus ojos en Cristo"
+  },
+  277: {
+    jp: "277 悩むものよ侘人よ",
+    esp: 100,
+    es: "100 ¡Dulces momentos!"
+  },
+  290: {
+    jp: "290 罪 重荷を除くは",
+    esp: 293,
+    es: "293 ¿Quieres ser salvo de toda maldad?"
+  },
+  292: {
+    jp: "292 主の血にあがなわれ",
+    esp: 296,
+    es: "296 Comprado con sangre por Cristo"
+  },
+  294: {
+    jp: "294 十字架の血潮もて",
+    esp: 297,
+    es: "297 Salvo con sangre por Cristo"
+  },
+  295: {
+    jp: "295 生くる甲斐もなしと",
+    esp: 93,
+    es: "93 Hubo Uno que quiso"
+  },
+  298: {
+    jp: "298 丘に立てる主の十字架は",
+    esp: 97,
+    es: "97 En el monte Calvario"
+  },
+  306: {
+    jp: "306 たてよいざたて",
+    esp: 506,
+    es: "506 ¡De pie, de pie, cristianos!"
+  },
+  311: {
+    jp: "311 イェス君のみ名は",
+    esp: 137,
+    es: "137 De Jesús el nombre invoca"
+  },
+  312: {
+    jp: "312 わが主のつばさのかげに",
+    esp: 411,
+    es: "411 Bajo sus alas"
+  },
+  313: {
+    jp: "313 イェスのみ腕に",
+    esp: 415,
+    es: "415 Salvo en los tiernos brazos"
+  },
+  314: {
+    jp: "314 深き恵みもて",
+    esp: 294,
+    es: "294 En Jesús por fe confío"
+  },
+  315: {
+    jp: "315 この世の旅路に",
+    esp: 420,
+    es: "420 Nunca desmayes"
+  },
+  316: {
+    jp: "316 主のまことは",
+    esp: 10,
+    es: "10 Alaba al Dios de Abraham"
+  },
+  317: {
+    jp: "317 神はわがやぐら",
+    esp: 400,
+    es: "400 Castillo fuerte es nuestro Dios"
+  },
+  327: {
+    jp: "327 わが主の導くところ",
+    esp: 404,
+    es: "404 A cualquiera parte"
+  },
+  330: {
+    jp: "330 主と主の言葉に",
+    esp: 395,
+    es: "395 ¡Oh, cuán dulce es fiar en Cristo!"
+  },
+  331: {
+    jp: "331 千歳の岩よ",
+    esp: 307,
+    es: "307 Roca de la eternidad"
+  },
+  332: {
+    jp: "332 より近くわが主の",
+    esp: 451,
+    es: "451 Cerca, más cerca"
+  },
+  334: {
+    jp: "334 主よわが主よ",
+    esp: 255,
+    es: "255 Oh Cristo, te adoro"
+  },
+  340: {
+    jp: "340 恵みの泉よ",
+    esp: 580,
+    es: "580 Las aguas del bautismo"
+  },
+  344: {
+    jp: "344 主よみもとに",
+    esp: 446,
+    es: "446 Más cerca, oh Dios, de ti"
+  },
+  346: {
+    jp: "346 いつくしみ深き",
+    esp: 469,
+    es: "469 Jesús me guía"
+  },
+  350: {
+    jp: "350 恵み深き主のほか",
+    esp: 246,
+    es: "246 Te quiero, mi Señor"
+  },
+  351: {
+    jp: "351 主イェスはわれの",
+    esp: 108,
+    es: "108 Amigo fiel es Cristo"
+  },
+  352: {
+    jp: "352 静けき祈りの",
+    esp: 376,
+    es: "376 Dulce oración"
+  },
+  358: {
+    jp: "358 イェス君イェス君",
+    esp: 444,
+    es: "444 No me pases"
+  },
+  362: {
+    jp: "362 なしたまえみ旨を",
+    esp: 245,
+    es: "245 Cúmplase, oh Cristo, tu voluntad"
+  },
+  364: {
+    jp: "364 キリストには代えられません",
+    esp: 269,
+    es: "269 Prefiero a mi Cristo"
+  },
+  380: {
+    jp: "380 けわしき世の旅に",
+    esp: 391,
+    es: "391 ¿Le importará a Jesús?"
+  },
+  386: {
+    jp: "386 イェスはわがすべて",
+    esp: 301,
+    es: "301 Cristo es mi amante Salvador"
+  },
+  387: {
+    jp: "387 神ともにいまして",
+    esp: 37,
+    es: "37 Dios os guarde"
+  },
+  395: {
+    jp: "395 まもなくかなたの",
+    esp: 328,
+    es: "328 ¿Nos veremos junto al río?"
+  },
+  410: {
+    jp: "410 はるかにあおぎ見る",
+    esp: 316,
+    es: "316 Hay un mundo más feliz más allá"
+  },
+  413: {
+    jp: "413 わが罪のために",
+    esp: 162,
+    es: "162 En presencia estar de Cristo"
+  },
+  421: {
+    jp: "421 ほめうたえ ひとり子イェス",
+    esp: 15,
+    es: "15 Loamoste ¡oh Dios!"
+  },
+  423: {
+    jp: "423 つのぶえを吹き鳴らせ",
+    esp: 166,
+    es: "166 Siervos de Dios, la trompeta tocad"
+  },
+  432: {
+    jp: "432 再臨の しるしは見えて",
+    esp: 165,
+    es: "165 ¡Vendrá el Señor!"
+  },
+  433: {
+    jp: "433 目覚めよわが友",
+    esp: 163,
+    es: "163 Cristo viene, esto es cierto"
+  }
+};
+function loadNames() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(NAMES_KEY)) || [];
+    return [...new Set([...PRESET_NAMES, ...saved])];
+  } catch (e) {
+    return PRESET_NAMES; // [];
+  }
+}
+function saveNames(names) {
+  try {
+    localStorage.setItem(NAMES_KEY, JSON.stringify([...new Set(names)].slice(0, 200)));
+  } catch (e) {}
+}
+function extractNames(data) {
+  const fields = ["_jp", "_es"];
+  const sections = [data.culto, data.escuela, data.anuncios];
+  const names = [];
+  sections.forEach(sec => {
+    if (!sec) return;
+    Object.entries(sec).forEach(([k, v]) => {
+      if (typeof v === "string" && v.trim().length > 1) {
+        // Split by / and spaces to get individual names
+        v.split("/").forEach(n => {
+          const t = n.trim();
+          if (t.length > 1) names.push(t);
+        });
+      }
+    });
+  });
+  return names;
+}
+function loadData() {
+  // 1. Lee la URL primero (link compartido)
+  try {
+    const hash = window.location.hash.slice(1);
+    if (hash.startsWith("d=")) {
+      const decoded = JSON.parse(decodeURIComponent(atob(hash.slice(2))));
+      return {
+        ...initialData,
+        ...decoded
+      };
+    }
+  } catch (e) {}
+  // 2. localStorage (edicion propia)
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) return {
+      ...initialData,
+      ...JSON.parse(saved)
+    };
+  } catch (e) {}
+  return initialData;
+}
+
+/* ── ZoomRow ── */
+function ZoomRow({
+  label,
+  jp,
+  es,
+  hymn
+}) {
+  const rowRef = useRef(null);
+  const jpRef = useRef(null);
+  useGSAP((gsap, ST) => {
+    const row = rowRef.current;
+    const jpEl = jpRef.current;
+    if (!row || !jpEl) return;
+    gsap.fromTo(jpEl, {
+      fontSize: "12px",
+      opacity: 0.45
+    }, {
+      fontSize: "20px",
+      opacity: 1,
+      ease: "power1.inOut",
+      scrollTrigger: {
+        trigger: row,
+        start: "top 82%",
+        end: "top 50%",
+        scrub: 0.6
+      }
+    });
+    gsap.fromTo(jpEl, {
+      fontSize: "20px",
+      opacity: 1
+    }, {
+      fontSize: "12px",
+      opacity: 0.45,
+      ease: "power1.inOut",
+      scrollTrigger: {
+        trigger: row,
+        start: "top 50%",
+        end: "top 18%",
+        scrub: 0.6
+      }
+    });
+    gsap.fromTo(row, {
+      backgroundColor: "rgba(201,153,26,0)"
+    }, {
+      backgroundColor: "rgba(201,153,26,0.07)",
+      ease: "power1.inOut",
+      scrollTrigger: {
+        trigger: row,
+        start: "top 65%",
+        end: "top 35%",
+        scrub: 0.5,
+        onEnter: () => row.classList.add("active"),
+        onLeave: () => row.classList.remove("active"),
+        onEnterBack: () => row.classList.add("active"),
+        onLeaveBack: () => row.classList.remove("active")
+      }
+    });
+    return () => ST.getAll().forEach(t => t.kill());
+  }, [label]);
+  if (!jp && !es) return null;
+  return /*#__PURE__*/React.createElement("div", {
+    className: "zoom-row",
+    ref: rowRef
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "r-lbl"
+  }, label), /*#__PURE__*/React.createElement("div", {
+    className: "r-val"
+  }, hymn ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "r-jp",
+    ref: jpRef
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "h-tag h-jp"
+  }, "\u266A JP"), jp), /*#__PURE__*/React.createElement("div", {
+    className: "r-es"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "h-tag h-es"
+  }, "\u266A \uD83C\uDDF5\uD83C\uDDFE"), es)) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "r-jp",
+    ref: jpRef
+  }, jp), es && es !== jp && /*#__PURE__*/React.createElement("div", {
+    className: "r-es"
+  }, es))));
+}
+
+/* ── ZoomLine ── */
+function ZoomLine({
+  children,
+  className = "p-zoom",
+  textClass = "p-text"
+}) {
+  const ref = useRef(null);
+  useGSAP((gsap, ST) => {
+    const el = ref.current;
+    if (!el) return;
+    const txt = el.querySelector("." + textClass);
+    if (!txt) return;
+    gsap.fromTo(txt, {
+      fontSize: "11px",
+      opacity: 0.4
+    }, {
+      fontSize: "16px",
+      opacity: 1,
+      ease: "power1.inOut",
+      scrollTrigger: {
+        trigger: el,
+        start: "top 80%",
+        end: "top 50%",
+        scrub: 0.6
+      }
+    });
+    gsap.fromTo(txt, {
+      fontSize: "16px",
+      opacity: 1
+    }, {
+      fontSize: "11px",
+      opacity: 0.4,
+      ease: "power1.inOut",
+      scrollTrigger: {
+        trigger: el,
+        start: "top 50%",
+        end: "top 20%",
+        scrub: 0.6
+      }
+    });
+    gsap.fromTo(el, {
+      backgroundColor: "rgba(0,0,0,0)"
+    }, {
+      backgroundColor: className === "a-zoom" ? "rgba(201,153,26,0.08)" : "rgba(255,255,255,0.04)",
+      ease: "power1.inOut",
+      scrollTrigger: {
+        trigger: el,
+        start: "top 65%",
+        end: "top 35%",
+        scrub: 0.5,
+        onEnter: () => el.classList.add("active"),
+        onLeave: () => el.classList.remove("active"),
+        onEnterBack: () => el.classList.add("active"),
+        onLeaveBack: () => el.classList.remove("active")
+      }
+    });
+    return () => ST.getAll().forEach(t => t.kill());
+  }, []);
+  return /*#__PURE__*/React.createElement("div", {
+    ref: ref,
+    className: className
+  }, children);
+}
+
+/* ── ParallaxHero ── */
+function ParallaxHero({
+  imgSrc,
+  kanji,
+  romaji,
+  time,
+  id
+}) {
+  const imgRef = useRef(null);
+  useGSAP((gsap, ST) => {
+    const el = imgRef.current;
+    if (!el) return;
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: el.parentElement,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1.2
+      }
+    }).fromTo(el, {
+      yPercent: -12
+    }, {
+      yPercent: 12,
+      ease: "none"
+    });
+    gsap.fromTo(el.parentElement, {
+      clipPath: "inset(18% 8% round 4px)"
+    }, {
+      clipPath: "inset(0% 0% round 0px)",
+      ease: "power2.out",
+      duration: 1,
+      scrollTrigger: {
+        trigger: el.parentElement,
+        start: "top 88%",
+        toggleActions: "play none none reverse"
+      }
+    });
+    return () => ST.getAll().forEach(t => t.kill());
+  }, [id]);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "parallax-block",
+    id: id
+  }, /*#__PURE__*/React.createElement("img", {
+    ref: imgRef,
+    className: "parallax-img",
+    src: imgSrc,
+    alt: romaji,
+    loading: "lazy"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "parallax-overlay"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "p-kanji"
+  }, kanji), /*#__PURE__*/React.createElement("span", {
+    className: "p-romaji"
+  }, romaji), time && /*#__PURE__*/React.createElement("span", {
+    className: "time-badge"
+  }, time)));
+}
+
+/* ── Reveal ── */
+function Reveal({
+  children,
+  delay = 0
+}) {
+  const ref = useRef(null);
+  useGSAP((gsap, ST) => {
+    gsap.to(ref.current, {
+      opacity: 1,
+      y: 0,
+      duration: .7,
+      delay,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ref.current,
+        start: "top 92%",
+        toggleActions: "play none none reverse"
+      }
+    });
+    return () => ST.getAll().forEach(t => t.kill());
+  }, []);
+  return /*#__PURE__*/React.createElement("div", {
+    ref: ref,
+    className: "reveal"
+  }, children);
+}
+
+/* ── Popup de Anuncios Importantes ── */
+function Popup({
+  data,
+  onClose
+}) {
+  const [closing, setClosing] = useState(false);
+  const timerRef = useRef(null);
+  const close = () => {
+    setClosing(true);
+    setTimeout(onClose, 550);
+  };
+  useEffect(() => {
+    // Auto-cierra a los 6 segundos
+    timerRef.current = setTimeout(close, 6000);
+    return () => clearTimeout(timerRef.current);
+  }, []);
+  const anuncios = data.popupAnuncios || [];
+  const pedidos = data.pedidosOracion || [];
+  const hasContent = anuncios.length > 0 || pedidos.length > 0;
+  if (!hasContent) return null;
+  return /*#__PURE__*/React.createElement("div", {
+    className: `popup-overlay${closing ? " out" : ""}`,
+    onClick: close
+  }, /*#__PURE__*/React.createElement("div", {
+    className: `popup-card${closing ? " out" : ""}`,
+    onClick: e => e.stopPropagation()
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "popup-glow"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "popup-icon"
+  }, "\uD83C\uDF38"), /*#__PURE__*/React.createElement("div", {
+    className: "popup-ttl-jp"
+  }, "\u304A\u77E5\u3089\u305B"), /*#__PURE__*/React.createElement("div", {
+    className: "popup-ttl-es"
+  }, "ANUNCIOS IMPORTANTES"), anuncios.length > 0 && /*#__PURE__*/React.createElement(React.Fragment, null, anuncios.map((a, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    className: "popup-item"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "popup-dot"
+  }, "\u2726"), /*#__PURE__*/React.createElement("span", {
+    className: "popup-text"
+  }, a)))), pedidos.length > 0 && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("hr", {
+    className: "popup-divider"
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "9px",
+      letterSpacing: "3px",
+      color: "var(--mizu)",
+      marginBottom: "8px",
+      fontFamily: "'Noto Sans JP'"
+    }
+  }, "\uD83D\uDE4F PEDIDOS DE ORACI\xD3N"), pedidos.map((p, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    className: "popup-item"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "popup-dot",
+    style: {
+      color: "var(--mizu)"
+    }
+  }, "\u2022"), /*#__PURE__*/React.createElement("span", {
+    className: "popup-text"
+  }, p)))), /*#__PURE__*/React.createElement("div", {
+    className: "popup-timer"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "popup-timer-bar"
+  })), /*#__PURE__*/React.createElement("button", {
+    className: "popup-close",
+    onClick: close
+  }, "\u9589\u3058\u308B / Cerrar")));
+}
+
+/* ── Viewer ── */
+function Viewer({
+  data
+}) {
+  const c = data.culto,
+    e = data.escuela,
+    a = data.anuncios;
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "feliz"
+  }, data.feliz), /*#__PURE__*/React.createElement(ParallaxHero, {
+    id: "hero-escuela",
+    imgSrc: HERO_ESCUELA,
+    kanji: "\u5B89\u606F\u65E5\u5B66\u6821",
+    romaji: "ESCUELA SAB\xC1TICA",
+    time: "08:50\u301C10:25"
+  }), /*#__PURE__*/React.createElement(Reveal, null, /*#__PURE__*/React.createElement("div", {
+    className: "s-card"
+  }, /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u6821\u9577 / Director",
+    jp: e.director_jp,
+    es: e.director_es
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u8CDB\u7F8E / Alabanzas",
+    jp: e.alabanzas_jp,
+    es: e.alabanzas_es
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u8CDB\u7F8E\u6B4C / Himno",
+    jp: e.himno_jp,
+    es: e.himno_es,
+    hymn: true
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u304A\u7948\u308A / Oraci\xF3n",
+    jp: e.oracion_jp,
+    es: e.oracion_es
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u4F1D\u9053\u5730 / Misionero",
+    jp: e.misionero_jp,
+    es: e.misionero_es
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u30AC\u30A4\u30C9 / Lecci\xF3n",
+    jp: e.leccion_jp,
+    es: e.leccion_es
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u8CDB\u7F8E\u6B4C 2 / Himno 2",
+    jp: e.himno2_jp,
+    es: e.himno2_es,
+    hymn: true
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u304A\u7948\u308A 2 / Oraci\xF3n 2",
+    jp: e.oracion2_jp,
+    es: e.oracion2_es
+  }))), /*#__PURE__*/React.createElement(ParallaxHero, {
+    id: "hero-culto",
+    imgSrc: HERO_CULTO,
+    kanji: "\u793C\u3000\u62DD",
+    romaji: "CULTO",
+    time: "10:30\u301C11:20"
+  }), /*#__PURE__*/React.createElement(Reveal, null, /*#__PURE__*/React.createElement("div", {
+    className: "s-card"
+  }, /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u53F8\u4F1A / Presentador",
+    jp: c.presentador_jp,
+    es: c.presentador_es
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u8CDB\u7F8E\u6B4C 1 / Himno 1",
+    jp: c.himno1_jp,
+    es: c.himno1_es,
+    hymn: true
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u304A\u7948\u308A 1 / Oraci\xF3n 1",
+    jp: c.oracion1_jp,
+    es: c.oracion1_es
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u8CDB\u7F8E\u6B4C 2 / Himno 2",
+    jp: c.himno2_jp,
+    es: c.himno2_es,
+    hymn: true
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u8056\u66F8\u6717\u8AAD / Lectura",
+    jp: c.lecturaBiblica_jp,
+    es: c.lecturaBiblica_es
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u304A\u7948\u308A 2 / Oraci\xF3n 2",
+    jp: c.oracion2_jp,
+    es: c.oracion2_es
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u732E\u91D1 / Ofrenda",
+    jp: c.ofrenda_jp,
+    es: c.ofrenda_es
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u5B50\u3069\u3082\u306E\u8A71 / Ni\xF1os",
+    jp: c.ninos_jp,
+    es: c.ninos_es
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u7279\u5225\u8B83\u7F8E\u6B4C / H.Esp.",
+    jp: c.himnoEspecial_jp,
+    es: c.himnoEspecial_es,
+    hymn: true
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u8AAC\u6559 / Serm\xF3n",
+    jp: c.sermon_jp,
+    es: c.sermon_es
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u8CDB\u7F8E\u6B4C 3 / Himno 3",
+    jp: c.himno3_jp,
+    es: c.himno3_es,
+    hymn: true
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u304A\u7948\u308A 3 / Oraci\xF3n 3",
+    jp: c.oracion3_jp,
+    es: c.oracion3_es
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u594F\u697D / M\xFAsica",
+    jp: c.musica_jp,
+    es: c.musica_es
+  }), /*#__PURE__*/React.createElement(ZoomRow, {
+    label: "\u793C\u62DD\u5F8C\u306E\u7948\u308A",
+    jp: c.oracionFinal_jp,
+    es: c.oracionFinal_es
+  }))), /*#__PURE__*/React.createElement(Reveal, {
+    delay: 0.05
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "prayer"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "prayer-ttl"
+  }, "\u57F7\u308A\u6210\u3057\u306E\u304A\u7948\u308A\u3000ORACI\xD3N DIARIA"), data.oraciones.map((o, i) => /*#__PURE__*/React.createElement(ZoomLine, {
+    key: i,
+    className: "p-zoom",
+    textClass: "p-text"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "p-date"
+  }, o.fecha), /*#__PURE__*/React.createElement("span", {
+    className: "p-text"
+  }, o.texto))))), /*#__PURE__*/React.createElement(Reveal, {
+    delay: 0.1
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "anuncio"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "anuncio-ttl"
+  }, "\u767A\u8868\u3000ANUNCIOS"), /*#__PURE__*/React.createElement(ZoomLine, {
+    className: "a-zoom",
+    textClass: "p-text"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "p-text"
+  }, "\u6708\u5F53\u756A\u9577\u8001 / Anciano: ", a.anciano_jp, " / ", a.anciano_es)), /*#__PURE__*/React.createElement(ZoomLine, {
+    className: "a-zoom",
+    textClass: "p-text"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "p-text"
+  }, "\u6B21\u9031\u8AAC\u6559 / Serm\xF3n sig.: ", a.sermon_sig_jp, " / ", a.sermon_sig_es)), /*#__PURE__*/React.createElement(ZoomLine, {
+    className: "a-zoom",
+    textClass: "p-text"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "p-text"
+  }, "\u6383\u9664 / Limpieza: ", a.limpieza_jp, " / ", a.limpieza_es)), a.nota && /*#__PURE__*/React.createElement(ZoomLine, {
+    className: "a-zoom",
+    textClass: "p-text"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "p-text",
+    style: {
+      color: "var(--aka)",
+      fontStyle: "italic"
+    }
+  }, a.nota)))), /*#__PURE__*/React.createElement(Reveal, {
+    delay: 0.15
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "pedidos"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "pedidos-ttl"
+  }, "\uD83D\uDE4F PEDIDOS DE ORACI\xD3N / \u304A\u7948\u308A\u306E\u30EA\u30AF\u30A8\u30B9\u30C8"), (data.pedidosOracion || []).length === 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "11px",
+      color: "rgba(255,255,255,.3)",
+      fontFamily: "'Noto Sans JP'",
+      fontStyle: "italic",
+      padding: "8px 0"
+    }
+  }, "Sin pedidos esta semana"), (data.pedidosOracion || []).map((p, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    className: "pedido-item"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "pedido-num"
+  }, i + 1, "."), /*#__PURE__*/React.createElement("span", {
+    className: "pedido-text"
+  }, p))))), /*#__PURE__*/React.createElement("div", {
+    className: "footer"
+  }, "www.facebook.com/iglesiajaponesaPY", /*#__PURE__*/React.createElement("br", null), "\u6559\u4F1A Iglesia Adventista Japonesa \u2014 Paraguay"));
+}
+
+/* ── Info Tooltip ── */
+function InfoTip({
+  text
+}) {
+  const [show, setShow] = useState(false);
+  return /*#__PURE__*/React.createElement("span", {
+    className: "info-wrap"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "info-btn",
+    onMouseEnter: () => setShow(true),
+    onMouseLeave: () => setShow(false),
+    onClick: () => setShow(s => !s)
+  }, "\u24D8"), show && /*#__PURE__*/React.createElement("div", {
+    className: "info-tooltip"
+  }, text));
+}
+
+/* ── Autocomplete Input (nombres) ── */
+function ACInput({
+  value,
+  onChange,
+  onChangePaired,
+  placeholder
+}) {
+  const [names] = useState(loadNames);
+  const [query, setQuery] = useState(value);
+  const [suggestions, setSuggestions] = useState([]);
+  const [selIdx, setSelIdx] = useState(-1);
+  const externalUpdate = useRef(false);
+  const isPicking = useRef(false);
+  useEffect(() => {
+    setQuery(value);
+  }, [value]);
+  const filter = q => {
+    if (!q || q.length < 1) return setSuggestions([]);
+    const lq = q.toLowerCase();
+    const matches = names.filter(n => n.toLowerCase().includes(lq) && n !== q);
+    setSuggestions([...new Set(matches)].slice(0, 6));
+    setSelIdx(-1);
+  };
+  const pick = name => {
+    isPicking.current = true;
+    setQuery(name);
+    onChange(name);
+    setSuggestions([]);
+    if (onChangePaired && NAME_PAIRS[name]) {
+      setTimeout(() => onChangePaired(NAME_PAIRS[name]), 0);
+    }
+    setTimeout(() => { isPicking.current = false; }, 400);
+  };
+  const handleKey = e => {
+    if (!suggestions.length) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setSelIdx(i => Math.min(i + 1, suggestions.length - 1));
+    }
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setSelIdx(i => Math.max(i - 1, -1));
+    }
+    if (e.key === "Enter" && selIdx >= 0) {
+      e.preventDefault();
+      pick(suggestions[selIdx]);
+    }
+    if (e.key === "Escape") setSuggestions([]);
+  };
+  const highlight = name => {
+    const lq = query.toLowerCase();
+    const idx = name.toLowerCase().indexOf(lq);
+    if (idx < 0) return name;
+    return /*#__PURE__*/React.createElement(React.Fragment, null, name.slice(0, idx), /*#__PURE__*/React.createElement("span", {
+      className: "ac-match"
+    }, name.slice(idx, idx + query.length)), name.slice(idx + query.length));
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "ac-wrap"
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "ed-in",
+    style: {
+      marginBottom: 0
+    },
+    value: query,
+    placeholder: placeholder,
+    onChange: e => {
+      setQuery(e.target.value);
+      onChange(e.target.value);
+      filter(e.target.value);
+    },
+    onKeyDown: handleKey,
+    onBlur: () => {
+      setTimeout(() => {
+        if (!isPicking.current) setSuggestions([]);
+      }, 300);
+      // Solo commitear si no se está seleccionando una sugerencia
+      if (!isPicking.current) onChange(query);
+    }
+  }), suggestions.length > 0 && /*#__PURE__*/React.createElement("div", {
+    className: "ac-list"
+  }, suggestions.map((s, i) => /*#__PURE__*/React.createElement("div", {
+    key: s,
+    className: `ac-item${i === selIdx ? " sel" : ""}`,
+    onMouseDown: () => { isPicking.current = true; pick(s); },
+    onTouchStart: () => { isPicking.current = true; pick(s); }
+  }, highlight(s)))));
+}
+
+/* ── Hymn List Modal ── */
+function HymnListModal({ onClose }) {
+  const [search, setSearch] = React.useState("");
+  const ALL = Object.entries(HIMNOS_ESP).map(([k,v]) => v).filter(h => h.jp);
+  const filtered = search.trim()
+    ? ALL.filter(h =>
+        h.es.toLowerCase().includes(search.toLowerCase()) ||
+        h.jp.includes(search) ||
+        String(h.jpn).includes(search) ||
+        String(HIMNOS_ESP[parseInt(Object.keys(HIMNOS_ESP).find(k=>HIMNOS_ESP[k]===h))]?.es?.split(" ")[0]).includes(search)
+      )
+    : ALL;
+
+  return React.createElement("div", { className:"hymn-modal-overlay", onClick:onClose },
+    React.createElement("div", { className:"hymn-modal", onClick:e=>e.stopPropagation() },
+      React.createElement("div", { className:"hymn-modal-header" },
+        React.createElement("span", { className:"hymn-modal-title" }, "♪ 賛美歌 / HIMNARIO"),
+        React.createElement("button", { className:"hymn-modal-close", onClick:onClose }, "✕ Cerrar")
+      ),
+      React.createElement("div", { className:"hymn-search" },
+        React.createElement("input", {
+          placeholder:"Buscar número o nombre...",
+          value: search,
+          autoFocus: true,
+          onChange: e => setSearch(e.target.value)
+        })
+      ),
+      React.createElement("div", { className:"hymn-list-scroll" },
+        filtered.map((h,i) => React.createElement("div", { key:i, className:"hymn-row" },
+          React.createElement("span", { className:"hymn-num" }, h.es.split(" ")[0] + " / " + h.jpn),
+          React.createElement("span", { className:"hymn-jp" }, h.jp.split(" ").slice(1).join(" ")),
+          React.createElement("span", { className:"hymn-es" }, h.es.split(" ").slice(1).join(" "))
+        ))
+      )
+    )
+  );
+}
+
+/* ── Himno Input — campos libres + botón lista ── */
+function HimnoInput({ valEs, valJp, onChangeEs, onChangeJp }) {
+  const [showList, setShowList] = React.useState(false);
+  return React.createElement(React.Fragment, null,
+    React.createElement("div", { style:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8} },
+      React.createElement("div", null,
+        React.createElement("label", { className:"ed-lbl" }, "Himno 🇵🇾"),
+        React.createElement("input", {
+          className:"himno-in",
+          value: valEs, placeholder:"Ej: 20 A Dios...",
+          onChange: e => onChangeEs(e.target.value)
+        })
+      ),
+      React.createElement("div", null,
+        React.createElement("label", { className:"ed-lbl" }, "賛美歌 🇯🇵"),
+        React.createElement("input", {
+          className:"himno-in",
+          value: valJp, placeholder:"例: 希望191...",
+          onChange: e => onChangeJp(e.target.value)
+        })
+      )
+    ),
+    React.createElement("button", {
+      style:{marginTop:5,width:"100%",background:"transparent",border:"1px solid rgba(201,153,26,.3)",color:"#A89060",padding:"6px",fontSize:"11px",letterSpacing:"1px",cursor:"pointer",fontFamily:"'Noto Sans JP'",borderRadius:"2px"},
+      onClick: e => { e.preventDefault(); setShowList(true); }
+    }, "♪ Ver lista de himnos / 賛美歌リスト"),
+    showList && React.createElement(HymnListModal, { onClose:()=>setShowList(false) })
+  );
+}
+
+
+/* ── TIPS por campo ── */
+const FIELD_TIPS = {
+  director: "校長 / Director de la Escuela Sabática\nEj: 細田茂 / Hosoda",
+  alabanzas: "賛美担当 / Quien dirige las alabanzas\nEj: 干場康秀 / Y.Hoshiba",
+  himno: "賛美歌番号を入力 / Ingresá el número\nSe completa automáticamente",
+  himno2: "賛美歌番号を入力 / Ingresá el número\nSe completa automáticamente",
+  oracion: "お祈り担当 / Quien hace la oración\nEj: 倉田薫 / Martin Kurata",
+  oracion2: "お祈り担当 / Quien hace la oración",
+  misionero: "伝道地 / Misionero o Video\nEj: ビデオ / Video",
+  leccion: "ガイド担当 / Quien explica la lección\nEj: 干場康秀 / Sixto Hoshiba",
+  presentador: "司会者 / Presentador del culto\nEj: マリア・テレサ / Maria Teresa",
+  himno1: "賛美歌番号を入力 / Ingresá el número\nSe completa automáticamente",
+  himno3: "賛美歌番号を入力 / Ingresá el número\nSe completa automáticamente",
+  himnoEspecial: "賛美歌番号を入力 / Número especial\no escribí — si no hay",
+  oracion1: "お祈り / Primera oración del culto",
+  oracion3: "お祈り / Oración después del sermón",
+  lecturaBiblica: "聖書箇所 / Pasaje bíblico\nEj: 詩篇 119 / Salmos 119",
+  ofrenda: "献金担当 / Quien recoge la ofrenda",
+  ninos: "子どもの話 / Quien habla a los niños",
+  sermon: "説教者 / Predicador\nEj: 倉田ケリー / Kelly de Kurata",
+  musica: "奏楽者 / Músicos\nEj: 岸田しおん/Laura",
+  oracionFinal: "礼拝後の祈り / Oración al final\nGeneralmente el presentador",
+  anciano: "月当番長老 / Anciano del mes",
+  sermon_sig: "次週説教者 / Predicador la próxima semana",
+  limpieza: "掃除担当 / Responsable de la limpieza"
+};
+
+/* ── Editor ── */
+function BF({
+  label,
+  field,
+  data,
+  onChange,
+  isHymn
+}) {
+  const tip = FIELD_TIPS[field] || "";
+  if (isHymn) {
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginBottom: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "field-label-row"
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "ed-lbl",
+      style: {
+        margin: 0
+      }
+    }, "\u266A ", label), tip && /*#__PURE__*/React.createElement(InfoTip, {
+      text: tip
+    })), /*#__PURE__*/React.createElement(HimnoInput, {
+      valEs: data[field + "_es"] || "",
+      valJp: data[field + "_jp"] || "",
+      onChangeEs: v => onChange(field + "_es", v),
+      onChangeJp: v => onChange(field + "_jp", v)
+    }));
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    className: "ed-bi",
+    style: {
+      marginBottom: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "field-label-row"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ed-lbl",
+    style: {
+      margin: 0
+    }
+  }, label, " \uD83C\uDDEF\uD83C\uDDF5"), tip && /*#__PURE__*/React.createElement(InfoTip, {
+    text: tip
+  })), /*#__PURE__*/React.createElement(ACInput, {
+    value: data[field + "_jp"] || "",
+    onChange: v => onChange(field + "_jp", v),
+    onChangePaired: v => onChange(field + "_es", v),
+    placeholder: "\u65E5\u672C\u8A9E"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "field-label-row"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ed-lbl",
+    style: {
+      margin: 0
+    }
+  }, label, " \uD83C\uDDF5\uD83C\uDDFE")), /*#__PURE__*/React.createElement(ACInput, {
+    value: data[field + "_es"] || "",
+    onChange: v => onChange(field + "_es", v),
+    onChangePaired: v => onChange(field + "_jp", v),
+    placeholder: "Espa\xF1ol"
+  })));
+}
+function Editor({
+  data,
+  onChange
+}) {
+  const upd = (sec, f, v) => onChange({
+    ...data,
+    [sec]: {
+      ...data[sec],
+      [f]: v
+    }
+  });
+  const updR = (f, v) => onChange({
+    ...data,
+    [f]: v
+  });
+  return /*#__PURE__*/React.createElement("div", {
+    className: "ed-wrap"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "ed-group"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ed-grp-ttl"
+  }, "\uD83D\uDCC5 \u898B\u51FA\u3057 / ENCABEZADO"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: 8,
+      marginBottom: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "ed-lbl"
+  }, "\u65E5\u4ED8 / Fecha"), /*#__PURE__*/React.createElement("input", {
+    className: "ed-in",
+    style: {
+      marginBottom: 0
+    },
+    value: data.fecha,
+    onChange: e => updR("fecha", e.target.value)
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
+    className: "ed-lbl"
+  }, "\u548C\u66A6 / Fecha Reiwa"), /*#__PURE__*/React.createElement("input", {
+    className: "ed-in",
+    style: {
+      marginBottom: 0,
+      color: "var(--mizu)"
+    },
+    value: data.fechaJp || "",
+    readOnly: true,
+    placeholder: "\u81EA\u52D5\u751F\u6210 / Auto"
+  }))), /*#__PURE__*/React.createElement("label", {
+    className: "ed-lbl"
+  }, "\u6328\u62F6 / Saludo"), /*#__PURE__*/React.createElement("input", {
+    className: "ed-in",
+    value: data.feliz,
+    onChange: e => updR("feliz", e.target.value)
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "ed-group"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ed-grp-ttl"
+  }, "\u5B89\u606F\u65E5\u5B66\u6821 ESCUELA SAB\xC1TICA"), [["校長 / Director", "director", false], ["賛美 / Alabanzas", "alabanzas", false], ["賛美歌 / Himno", "himno", true], ["お祈り / Oración", "oracion", false], ["伝道地 / Misionero", "misionero", false], ["ガイド / Lección", "leccion", false], ["賛美歌 2 / Himno 2", "himno2", true], ["お祈り 2 / Oración 2", "oracion2", false]].map(([l, f, h]) => /*#__PURE__*/React.createElement(BF, {
+    key: f,
+    label: l,
+    field: f,
+    isHymn: h,
+    data: data.escuela,
+    onChange: (ff, v) => upd("escuela", ff, v)
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "ed-group"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ed-grp-ttl"
+  }, "\u793C\u62DD CULTO"), [["司会 / Presentador", "presentador", false], ["賛美歌 1 / Himno 1", "himno1", true], ["お祈り 1 / Oración 1", "oracion1", false], ["賛美歌 2 / Himno 2", "himno2", true], ["聖書朗読 / Lectura", "lecturaBiblica", false], ["お祈り 2 / Oración 2", "oracion2", false], ["献金 / Ofrenda", "ofrenda", false], ["子どもの話 / Niños", "ninos", false], ["特別讃美歌 / H.Esp.", "himnoEspecial", true], ["説教 / Sermón", "sermon", false], ["賛美歌 3 / Himno 3", "himno3", true], ["お祈り 3 / Oración 3", "oracion3", false], ["奏楽 / Música", "musica", false], ["礼拝後の祈り", "oracionFinal", false]].map(([l, f, h]) => /*#__PURE__*/React.createElement(BF, {
+    key: f,
+    label: l,
+    field: f,
+    isHymn: h,
+    data: data.culto,
+    onChange: (ff, v) => upd("culto", ff, v)
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "ed-group"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ed-grp-ttl"
+  }, "\u767A\u8868 ANUNCIOS"), [["月当番長老 / Anciano", "anciano"], ["次週説教 / Sermón sig.", "sermon_sig"], ["掃除 / Limpieza", "limpieza"]].map(([l, f]) => /*#__PURE__*/React.createElement(BF, {
+    key: f,
+    label: l,
+    field: f,
+    data: data.anuncios,
+    onChange: (ff, v) => upd("anuncios", ff, v)
+  })), /*#__PURE__*/React.createElement("label", {
+    className: "ed-lbl"
+  }, "Nota especial"), /*#__PURE__*/React.createElement("input", {
+    className: "ed-in",
+    value: data.anuncios.nota,
+    onChange: e => upd("anuncios", "nota", e.target.value)
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "ed-group"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ed-grp-ttl"
+  }, "\uD83D\uDCE2 ANUNCIOS POPUP / \u304A\u77E5\u3089\u305B"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: "10px",
+      color: "#8A7A60",
+      marginBottom: "8px",
+      fontFamily: "'Noto Sans JP'"
+    }
+  }, "Aparecen al abrir la p\xE1gina. Uno por l\xEDnea."), (data.popupAnuncios || []).map((a, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 32px",
+      gap: 6,
+      marginBottom: 6
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "ed-in",
+    style: {
+      marginBottom: 0
+    },
+    value: a,
+    onChange: e => {
+      const arr = [...(data.popupAnuncios || [])];
+      arr[i] = e.target.value;
+      onChange({
+        ...data,
+        popupAnuncios: arr
+      });
+    }
+  }), /*#__PURE__*/React.createElement("button", {
+    style: {
+      background: "var(--aka)",
+      color: "#fff",
+      border: "none",
+      borderRadius: "2px",
+      cursor: "pointer",
+      fontSize: "14px"
+    },
+    onClick: () => {
+      const arr = [...(data.popupAnuncios || [])];
+      arr.splice(i, 1);
+      onChange({
+        ...data,
+        popupAnuncios: arr
+      });
+    }
+  }, "\xD7"))), /*#__PURE__*/React.createElement("button", {
+    className: "btn-reset",
+    style: {
+      marginTop: 4
+    },
+    onClick: () => onChange({
+      ...data,
+      popupAnuncios: [...(data.popupAnuncios || []), ""]
+    })
+  }, "+ Agregar anuncio")), /*#__PURE__*/React.createElement("div", {
+    className: "ed-group"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ed-grp-ttl"
+  }, "\uD83D\uDE4F PEDIDOS DE ORACI\xD3N / \u304A\u7948\u308A\u30EA\u30B9\u30C8"), (data.pedidosOracion || []).map((p, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 32px",
+      gap: 6,
+      marginBottom: 6
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "ed-in",
+    style: {
+      marginBottom: 0
+    },
+    value: p,
+    onChange: e => {
+      const arr = [...(data.pedidosOracion || [])];
+      arr[i] = e.target.value;
+      onChange({
+        ...data,
+        pedidosOracion: arr
+      });
+    }
+  }), /*#__PURE__*/React.createElement("button", {
+    style: {
+      background: "var(--aka)",
+      color: "#fff",
+      border: "none",
+      borderRadius: "2px",
+      cursor: "pointer",
+      fontSize: "14px"
+    },
+    onClick: () => {
+      const arr = [...(data.pedidosOracion || [])];
+      arr.splice(i, 1);
+      onChange({
+        ...data,
+        pedidosOracion: arr
+      });
+    }
+  }, "\xD7"))), /*#__PURE__*/React.createElement("button", {
+    className: "btn-reset",
+    style: {
+      marginTop: 4
+    },
+    onClick: () => onChange({
+      ...data,
+      pedidosOracion: [...(data.pedidosOracion || []), ""]
+    })
+  }, "+ Agregar pedido")), /*#__PURE__*/React.createElement("div", {
+    className: "ed-group"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ed-grp-ttl"
+  }, "\u57F7\u308A\u6210\u3057\u306E\u304A\u7948\u308A ORACI\xD3N DIARIA"), data.oraciones.map((o, i) => /*#__PURE__*/React.createElement("div", {
+    key: i,
+    style: {
+      display: "grid",
+      gridTemplateColumns: "64px 1fr",
+      gap: 8,
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    className: "ed-in",
+    style: {
+      marginBottom: 0
+    },
+    value: o.fecha,
+    onChange: e => {
+      const a = [...data.oraciones];
+      a[i] = {
+        ...a[i],
+        fecha: e.target.value
+      };
+      onChange({
+        ...data,
+        oraciones: a
+      });
+    }
+  }), /*#__PURE__*/React.createElement("input", {
+    className: "ed-in",
+    style: {
+      marginBottom: 0
+    },
+    value: o.texto,
+    onChange: e => {
+      const a = [...data.oraciones];
+      a[i] = {
+        ...a[i],
+        texto: e.target.value
+      };
+      onChange({
+        ...data,
+        oraciones: a
+      });
+    }
+  })))));
+}
+
+/* ── Helpers de fecha ── */
+function nextSaturday() {
+  const today = new Date();
+  const day = today.getDay(); // 0=Sun..6=Sat
+  const diff = day === 6 ? 7 : 6 - day; // si hoy es sábado, el próximo es en 7 días
+  const sat = new Date(today);
+  sat.setDate(today.getDate() + diff);
+  return sat;
+}
+function formatFechaEs(d) {
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const yy = d.getFullYear();
+  return `${dd}/${mm}/${yy}`;
+}
+function formatFechaJp(d) {
+  // 令和元年 = 2019
+  const reiwaStart = 2019;
+  const year = d.getFullYear();
+  const reiwaYear = year - reiwaStart + 1;
+  const months = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
+  const month = months[d.getMonth()];
+  const day = d.getDate();
+  const reiwaStr = reiwaYear === 1 ? "令和元年" : `令和${reiwaYear}年`;
+  return `${reiwaStr}${month}${day}日（土）`;
+}
+function buildNewWeekData(base) {
+  const sat = nextSaturday();
+  const fechaEs = formatFechaEs(sat);
+  const fechaJp = formatFechaJp(sat);
+  // Update oración diaria dates
+  const oraciones = base.oraciones.map((o, i) => {
+    const d = new Date(sat);
+    d.setDate(sat.getDate() + i);
+    const dd = String(d.getDate()).padStart(2, "0");
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    return {
+      ...o,
+      fecha: `${dd}/${mm}`
+    };
+  });
+  return {
+    ...base,
+    fecha: fechaEs,
+    fechaJp,
+    oraciones
+  };
+}
+
+/* ── App ── */
+function App() {
+  const [tab, setTab] = useState("view");
+  const [data, setData] = useState(() => {
+    const d = loadData();
+    // Auto-generate reiwa if missing
+    if (!d.fechaJp) {
+      try {
+        const parts = d.fecha.split("/");
+        const dt = new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+        return {
+          ...d,
+          fechaJp: formatFechaJp(dt)
+        };
+      } catch (e) {
+        return d;
+      }
+    }
+    return d;
+  });
+  const [toast, setToast] = useState("");
+  const [showPopup, setShowPopup] = useState(true);
+  const [syncing, setSyncing] = useState(true);
+
+  // Cargar desde la nube al abrir
+  useEffect(() => {
+    loadFromCloud().then(cloudData => {
+      if (cloudData) {
+        setData(cloudData);
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(cloudData)); } catch(e) {}
+      }
+      setSyncing(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {}
+  }, [data]);
+  const showToast = msg => {
+    setToast(msg);
+    setTimeout(() => setToast(""), 2500);
+  };
+  const share = () => {
+    // Genera link con datos codificados en la URL
+    try {
+      const encoded = btoa(encodeURIComponent(JSON.stringify(data)));
+      const url = window.location.origin + window.location.pathname + "#d=" + encoded;
+      const c = data.culto,
+        e = data.escuela,
+        a = data.anuncios;
+      const txt = `🌸 *週報 Boletín Semanal* 🌸
+📅 ${data.fecha} — ${data.feliz}
+
+━━ 安息日学校 ESCUELA SABÁTICA ━━
+🕗 8:50〜10:25
+• 校長: ${e.director_jp} / ${e.director_es}
+• ガイド: ${e.leccion_jp} / ${e.leccion_es}
+
+━━ 礼拝 CULTO ━━
+🕙 10:30〜11:20
+• 司会: ${c.presentador_jp} / ${c.presentador_es}
+• 説教: ${c.sermon_jp} / ${c.sermon_es}
+• 奏楽: ${c.musica_jp}
+
+━━ 発表 ANUNCIOS ━━
+• Anciano: ${a.anciano_jp} / ${a.anciano_es}
+• Sermón sig.: ${a.sermon_sig_jp}
+${a.nota ? "• " + a.nota : ""}
+
+🔗 ${url}`;
+      if (navigator.share) {
+        navigator.share({
+          title: "週報 " + data.fecha,
+          text: txt
+        });
+      } else {
+        navigator.clipboard.writeText(txt).then(() => showToast("✓ Link copiado al portapapeles"));
+      }
+    } catch (err) {
+      showToast("Error al generar link");
+    }
+  };
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "hdr"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "hdr-jp"
+  }, "\u9031\u3000\u5831"), /*#__PURE__*/React.createElement("div", {
+    className: "hdr-es"
+  }, "Iglesia Adventista Japonesa \xB7 Paraguay")), /*#__PURE__*/React.createElement("div", {
+    className: "hdr-date"
+  }, syncing ? "⏳ Cargando..." : "Paraguay", /*#__PURE__*/React.createElement("br", null), data.fecha, data.fechaJp && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: "9px",
+      opacity: .7
+    }
+  }, data.fechaJp)))), /*#__PURE__*/React.createElement("div", {
+    className: "tabs"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: `tab ${tab === "view" ? "active" : ""}`,
+    onClick: () => setTab("view")
+  }, "\uD83D\uDCD6 Bolet\xEDn"), /*#__PURE__*/React.createElement("button", {
+    className: `tab ${tab === "edit" ? "active" : ""}`,
+    onClick: () => setTab("edit")
+  }, "\u270F\uFE0F Editor")), tab === "view" ? /*#__PURE__*/React.createElement(React.Fragment, null, showPopup && /*#__PURE__*/React.createElement(Popup, {
+    data: data,
+    onClose: () => setShowPopup(false)
+  }), /*#__PURE__*/React.createElement(Viewer, {
+    data: data
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "share-bar"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "share-btn",
+    onClick: share
+  }, "\uD83D\uDD17 Generar link y compartir"))) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {padding: "10px 12px 6px", background: "#1A150A", borderBottom: "1px solid rgba(201,153,26,0.3)"}
+  }, /*#__PURE__*/React.createElement("button", {
+    style: {background: "rgba(201,153,26,0.15)", color: "#C9991A", border: "1px solid rgba(201,153,26,0.4)", borderRadius: "3px", padding: "11px", width: "100%", fontFamily: "Noto Sans JP", fontSize: "13px", letterSpacing: "2px", cursor: "pointer"},
+    onClick: () => {
+      if (window.confirm("次の安息日へリセットしますか？ / ¿Nueva semana?")) {
+        const newData = buildNewWeekData(initialData);
+        setData(newData);
+        setShowPopup(false);
+        showToast("↺ " + newData.fecha + " · " + newData.fechaJp);
+      }
+    }
+  }, "↺ 次の安息日へ / Nueva semana")), /*#__PURE__*/React.createElement(Editor, {
+    data: data,
+    onChange: setData
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "0 12px 4px"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn-ok",
+    onClick: () => {
+      // Save names for autocomplete
+      const existing = loadNames();
+      const newNames = extractNames(data);
+      saveNames([...existing, ...newNames]);
+      setSyncing(true);
+      saveToCloud(data).then(ok => {
+        setSyncing(false);
+        setTab("view");
+        showToast(ok ? "☁️ Guardado en la nube" : "⚠️ Sin conexión — guardado local");
+      });
+    }
+  }, "\u2713 Guardar y ver")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "8px 12px 24px"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn-reset",
+    onClick: () => {
+      if (window.confirm("次の安息日へリセットしますか？ / ¿Nueva semana?")) {
+        const newData = buildNewWeekData(initialData);
+        setData(newData);
+        setShowPopup(false);
+        showToast("↺ " + newData.fecha + " · " + newData.fechaJp);
+      }
+    }
+  }, "\u21BA Nueva semana (pr\xF3ximo s\xE1bado)"))), toast && /*#__PURE__*/React.createElement("div", {
+    className: "toast"
+  }, toast));
+}
+ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.createElement(App, null));
+
+</script>
+</body>
+</html>

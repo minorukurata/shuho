@@ -372,30 +372,34 @@ const HERO_ESCUELA = "https://images.unsplash.com/photo-1506905925346-21bda4d32d
 const HERO_CULTO = "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=80";
 const STORAGE_KEY = "shuho_data_v1";
 const NAMES_KEY = "shuho_names_v1";
-const JSONBIN_ID = "6a44fd39f5f4af5e294d14e8";
-const JSONBIN_KEY = "$2a$10$44Q1oLr4x94dM8F3GrCE7.I1BoaMWx6u.K4tk8q.1UNiBXNdXB3FC";
-const JSONBIN_URL = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID;
+const GIST_RAW = "https://gist.githubusercontent.com/minorukurata/b004c4eb5c2ab7023dc97c86bdff5c46/raw/shuho-data.json";
+const GIST_API = "https://api.github.com/gists/b004c4eb5c2ab7023dc97c86bdff5c46";
+const GIST_TOKEN = "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";
+const GIST_FILE = "shuho-data.json";
 
 async function loadFromCloud() {
   try {
-    const res = await fetch(JSONBIN_URL + "/latest", {
-      headers: { "X-Access-Key": JSONBIN_KEY }
-    });
+    // Add timestamp to avoid cache
+    const res = await fetch(GIST_RAW + "?t=" + Date.now());
     if (!res.ok) return null;
     const json = await res.json();
-    return { ...initialData, ...json.record };
+    return { ...initialData, ...json };
   } catch(e) { return null; }
 }
 
 async function saveToCloud(data) {
   try {
-    const res = await fetch(JSONBIN_URL, {
-      method: "PUT",
+    const res = await fetch(GIST_API, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        "X-Access-Key": JSONBIN_KEY
+        "Authorization": "token " + GIST_TOKEN
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+        files: {
+          [GIST_FILE]: { content: JSON.stringify(data) }
+        }
+      })
     });
     return res.ok;
   } catch(e) { return false; }

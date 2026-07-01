@@ -239,85 +239,85 @@ function useGSAP(cb, deps = []) {
 
 /* ── Datos iniciales ── */
 const initialData = {
-  fecha: "06/06/2026",
+  fecha: "13/06/2026",
   feliz: "¡¡¡FELIZ SÁBADO!!!　幸せな安息日を！",
   culto: {
-    presentador_jp: "マリア・テレサ",
-    presentador_es: "Maria Teresa",
+    presentador_jp: "細田茂",
+    presentador_es: "Shigeru Hosoda",
     himno1_jp: "1 あめつちこぞりて",
     himno1_es: "20 A Dios, el padre celestial",
-    oracion1_jp: "倉田ケリー",
-    oracion1_es: "Kelly de Kurata",
-    himno2_jp: "60",
-    himno2_es: "60",
-    lecturaBiblica_jp: "詩篇 119",
-    lecturaBiblica_es: "Salmos 119",
-    oracion2_jp: "マリア・テレサ",
-    oracion2_es: "Maria Teresa",
-    ofrenda_jp: "倉田薫",
-    ofrenda_es: "Kaoru Kurata",
-    ninos_jp: "倉田ケリー",
-    ninos_es: "Kelly de Kurata",
+    oracion1_jp: "倉田伸寿",
+    oracion1_es: "Shinju Kurata",
+    himno2_jp: "28 子羊をば",
+    himno2_es: "156 A Cristo coronad",
+    lecturaBiblica_jp: "詩篇 120",
+    lecturaBiblica_es: "Salmos 120",
+    oracion2_jp: "細田茂",
+    oracion2_es: "Shigeru Hosoda",
+    ofrenda_jp: "干場リリアナ",
+    ofrenda_es: "Liliana de Hoshiba",
+    ninos_jp: "ビデオ",
+    ninos_es: "Video",
     himnoEspecial_jp: "—",
     himnoEspecial_es: "—",
-    sermon_jp: "倉田ケリー",
-    sermon_es: "Kelly de Kurata",
-    himno3_jp: "190",
-    himno3_es: "190",
-    oracion3_jp: "倉田ケリー",
-    oracion3_es: "Kelly de Kurata",
+    sermon_jp: "倉田伸寿",
+    sermon_es: "Shinju Kurata",
+    himno3_jp: "215 十字架の血に",
+    himno3_es: "238 Yo escucho, buen Jesús",
+    oracion3_jp: "倉田伸寿",
+    oracion3_es: "Shinju Kurata",
     musica_jp: "岸田しおん/Laura/Aran",
     musica_es: "岸田しおん/Laura/Aran",
     oracionFinal_jp: "司会者",
     oracionFinal_es: "Presentador"
   },
   escuela: {
-    director_jp: "細田茂",
-    director_es: "Hosoda",
-    alabanzas_jp: "干場康秀",
-    alabanzas_es: "Y.Hoshiba",
+    director_jp: "栄田寛三",
+    director_es: "Kanzo Eida",
+    alabanzas_jp: "岸田雅仁",
+    alabanzas_es: "Fernando Kishida",
     himno_jp: "希望191 きよき朝よ",
     himno_es: "545 Santo dia",
-    oracion_jp: "倉田薫",
-    oracion_es: "Martin Kurata",
+    oracion_jp: "栄田寛三",
+    oracion_es: "Kanzo Eida",
     misionero_jp: "ビデオ",
     misionero_es: "Video",
-    leccion_jp: "干場康秀",
-    leccion_es: "Sixto Hoshiba",
-    himno2_jp: "150 主のためにわれは生く",
-    himno2_es: "266 Vivo por Cristo",
-    oracion2_jp: "栄田寛三",
-    oracion2_es: "Kanzo Eida"
+    leccion_jp: "倉田伸寿",
+    leccion_es: "Shinju Kurata",
+    himno2_jp: "128 主なる神に",
+    himno2_es: "147 A Dios sea gloria",
+    oracion2_jp: "干場康秀",
+    oracion2_es: "Sixto Hoshiba"
   },
   anuncios: {
     anciano_jp: "細田茂",
-    anciano_es: "Hosoda",
-    sermon_sig_jp: "倉田伸寿",
-    sermon_sig_es: "Shinju Kurata",
-    limpieza_jp: "ミリアン・ちあき",
-    limpieza_es: "Miran Chiaki",
-    nota: "6月 母の日・父の日集会 / Reunión Día de la Madre y del Padre"
+    anciano_es: "Shigeru Hosoda",
+    sermon_sig_jp: "細田茂",
+    sermon_sig_es: "Shigeru Hosoda",
+    limpieza_jp: "倉田ファミリー",
+    limpieza_es: "Flia. Kurata",
+    nota: ""
   },
   oraciones: [{
-    fecha: "06/06",
+    fecha: "13/06",
     texto: "Flia. Eida"
   }, {
-    fecha: "07/06",
+    fecha: "14/06",
     texto: "Flia. Kurata"
   }, {
-    fecha: "08/06",
+    fecha: "15/06",
     texto: "Flia. Hoshiba"
   }, {
-    fecha: "09/06",
+    fecha: "16/06",
     texto: "Flia. Kishida"
   }, {
-    fecha: "10/06",
+    fecha: "17/06",
     texto: "Flia. Hosoda"
   }, {
-    fecha: "11/06",
+    fecha: "18/06",
     texto: "Hermanos que no asisten frecuentemente"
   }, {
-    fecha: "12/06",
+    fecha: "19/06",
     texto: "Obreros y funcionarios de la iglesia en Py"
   }],
   popupAnuncios: ["6月 母の日・父の日集会 / Reunión Día de la Madre y del Padre"],
@@ -327,6 +327,34 @@ const HERO_ESCUELA = "https://images.unsplash.com/photo-1506905925346-21bda4d32d
 const HERO_CULTO = "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=80";
 const STORAGE_KEY = "shuho_data_v1";
 const NAMES_KEY = "shuho_names_v1";
+const JSONBIN_ID = "6a44efeeda38895dfe1b391f";
+const JSONBIN_KEY = "$2a$10$44Q1oLr4x94dM8F3GrCE7.I1BoaMWx6u.K4tk8q.1UNiBXNdXB3FC";
+const JSONBIN_URL = "https://api.jsonbin.io/v3/b/" + JSONBIN_ID;
+
+async function loadFromCloud() {
+  try {
+    const res = await fetch(JSONBIN_URL + "/latest", {
+      headers: { "X-Access-Key": JSONBIN_KEY }
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return { ...initialData, ...json.record };
+  } catch(e) { return null; }
+}
+
+async function saveToCloud(data) {
+  try {
+    const res = await fetch(JSONBIN_URL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Access-Key": JSONBIN_KEY
+      },
+      body: JSON.stringify(data)
+    });
+    return res.ok;
+  } catch(e) { return false; }
+}
 
 const PRESET_NAMES = [
   "倉田稔",
@@ -352,7 +380,7 @@ const PRESET_NAMES = [
   "大石美智子",
   "大石千明",
   "合田マリア",
-  "つくだよこ",
+  "佃よこ",
   "マルセロ・コレア",
   "Minoru Kurata",
   "Kaoru Kurata",
@@ -379,7 +407,13 @@ const PRESET_NAMES = [
   "Maria Goda",
   "Yoko Tsukuda",
   "Marcelo Correa"
-];
+,
+  "倉田伸寿",
+  "Shinju Kurata",
+  "倉田ケリー",
+  "Kelly de Kurata",
+  "マリア・テレサ",
+  "Maria Teresa"];
 
 const NAME_PAIRS = {
   "倉田稔": "Minoru Kurata",
@@ -428,8 +462,8 @@ const NAME_PAIRS = {
   "Chiaki Oishi": "大石千明",
   "合田マリア": "Maria Goda",
   "Maria Goda": "合田マリア",
-  "つくだよこ": "Yoko Tsukuda",
-  "Yoko Tsukuda": "つくだよこ",
+  "佃よこ": "Yoko Tsukuda",
+  "Yoko Tsukuda": "佃よこ",
   "マルセロ・コレア": "Marcelo Correa",
   "Marcelo Correa": "マルセロ・コレア",
 };
@@ -2356,6 +2390,19 @@ function App() {
   });
   const [toast, setToast] = useState("");
   const [showPopup, setShowPopup] = useState(true);
+  const [syncing, setSyncing] = useState(true);
+
+  // Cargar desde la nube al abrir
+  useEffect(() => {
+    loadFromCloud().then(cloudData => {
+      if (cloudData) {
+        setData(cloudData);
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(cloudData)); } catch(e) {}
+      }
+      setSyncing(false);
+    });
+  }, []);
+
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -2413,7 +2460,7 @@ ${a.nota ? "• " + a.nota : ""}
     className: "hdr-es"
   }, "Iglesia Adventista Japonesa \xB7 Paraguay")), /*#__PURE__*/React.createElement("div", {
     className: "hdr-date"
-  }, "Paraguay", /*#__PURE__*/React.createElement("br", null), data.fecha, data.fechaJp && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+  }, syncing ? "⏳ Cargando..." : "Paraguay", /*#__PURE__*/React.createElement("br", null), data.fecha, data.fechaJp && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: "9px",
       opacity: .7
@@ -2462,8 +2509,12 @@ ${a.nota ? "• " + a.nota : ""}
       const existing = loadNames();
       const newNames = extractNames(data);
       saveNames([...existing, ...newNames]);
-      setTab("view");
-      showToast("✓ Cambios guardados");
+      setSyncing(true);
+      saveToCloud(data).then(ok => {
+        setSyncing(false);
+        setTab("view");
+        showToast(ok ? "☁️ Guardado en la nube" : "⚠️ Sin conexión — guardado local");
+      });
     }
   }, "\u2713 Guardar y ver")), /*#__PURE__*/React.createElement("div", {
     style: {

@@ -1916,9 +1916,9 @@ function HimnoInput({
     const h = HIMNOS_ESP[n];
     if (h) {
       onChangeEs(h.es);
-      if (h.jp) onChangeJp(h.jp);
-      setNumJp(String(h.jpn || ""));
+      if (h.jp) { onChangeJp(h.jp); setNumJp(String(h.jpn || "")); }
     } else {
+      // No encontrado — solo actualiza el campo ES, no toca JP
       onChangeEs(num);
     }
   };
@@ -1927,9 +1927,9 @@ function HimnoInput({
     const h = HIMNOS_JPN[n];
     if (h) {
       onChangeJp(h.jp);
-      if (h.es) onChangeEs(h.es);
-      setNumEs(String(h.esp || ""));
+      if (h.es) { onChangeEs(h.es); setNumEs(String(h.esp || "")); }
     } else {
+      // No encontrado — solo actualiza el campo JP, no toca ES
       onChangeJp(num);
     }
   };

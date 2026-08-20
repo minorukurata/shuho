@@ -22,6 +22,20 @@ body{background:var(--washi);color:var(--ink);font-family:'Noto Serif JP',serif;
 .tab{flex:1;padding:11px 6px;font-size:11px;letter-spacing:1px;border:none;background:transparent;cursor:pointer;color:#7A6A50;font-family:'Noto Sans JP';border-bottom:2px solid transparent;transition:all .25s;}
 .tab.active{color:var(--gold);border-bottom-color:var(--gold);}
 .tab:hover:not(.active){background:rgba(255,255,255,.04);}
+
+/* ── LANG SELECTOR ── */
+.lang-bar{
+  display:flex;justify-content:center;gap:6px;
+  padding:8px 12px;background:#120E04;
+  border-bottom:1px solid #2A2010;
+}
+.lang-btn{
+  padding:5px 14px;border-radius:20px;border:1px solid rgba(201,153,26,.3);
+  background:transparent;color:#7A6A50;font-family:'Noto Sans JP';
+  font-size:11px;cursor:pointer;transition:all .2s;letter-spacing:1px;
+}
+.lang-btn.active{background:var(--gold);color:var(--sumi);border-color:var(--gold);font-weight:600;}
+.lang-btn:hover:not(.active){border-color:var(--gold);color:var(--gold);}
 .parallax-block{position:relative;overflow:hidden;height:160px;}
 .parallax-img{position:absolute;inset:-30% 0;width:100%;height:160%;object-fit:cover;will-change:transform;}
 .parallax-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:linear-gradient(to bottom,rgba(0,0,0,.35),rgba(0,0,0,.55));}
@@ -70,6 +84,28 @@ body{background:var(--washi);color:var(--ink);font-family:'Noto Serif JP',serif;
 .btn-ok:hover{background:#5A1010;}
 .btn-reset{background:transparent;color:#8A7A60;border:1px solid #C8BFA8;padding:10px;width:100%;font-family:'Noto Sans JP';font-size:11px;letter-spacing:2px;cursor:pointer;transition:all .2s;}
 .btn-reset:hover{background:#F0E8D8;color:var(--aka);border-color:var(--aka);}
+
+/* ── TOKEN SETUP ── */
+.token-banner{
+  background:#0E1A20;border-bottom:1px solid var(--mizu);
+  padding:12px 14px;display:flex;flex-direction:column;gap:8px;
+}
+.token-banner-title{font-size:10px;letter-spacing:2px;color:var(--mizu);font-family:'Noto Sans JP';}
+.token-row{display:flex;gap:8px;align-items:center;}
+.token-input{
+  flex:1;padding:8px 10px;background:#061014;border:1px solid var(--mizu);
+  border-radius:2px;color:var(--washi);font-family:'Noto Sans JP';font-size:12px;
+  outline:none;
+}
+.token-btn{
+  background:var(--mizu);color:#fff;border:none;padding:8px 14px;
+  border-radius:2px;font-family:'Noto Sans JP';font-size:11px;cursor:pointer;
+  white-space:nowrap;
+}
+.token-ok{
+  font-size:10px;color:#6ABBC8;font-family:'Noto Sans JP';
+  padding:4px 0;
+}
 
 /* ── HYMN LIST MODAL ── */
 .hymn-modal-overlay{
@@ -374,8 +410,18 @@ const STORAGE_KEY = "shuho_data_v1";
 const NAMES_KEY = "shuho_names_v1";
 const GIST_RAW = "https://gist.githubusercontent.com/minorukurata/b004c4eb5c2ab7023dc97c86bdff5c46/raw/shuho-data.json";
 const GIST_API = "https://api.github.com/gists/b004c4eb5c2ab7023dc97c86bdff5c46";
-const GIST_TOKEN = "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";
 const GIST_FILE = "shuho-data.json";
+const TOKEN_KEY = "shuho_gh_token";
+const LANG_KEY  = "shuho_lang";
+function getLang() { return localStorage.getItem(LANG_KEY) || "both"; }
+function saveLang(l) { localStorage.setItem(LANG_KEY, l); }
+
+function getToken() {
+  return localStorage.getItem(TOKEN_KEY) || "";
+}
+function saveToken(t) {
+  localStorage.setItem(TOKEN_KEY, t.trim());
+}
 
 async function loadFromCloud() {
   try {
@@ -1328,6 +1374,9 @@ function extractNames(data) {
   });
   return names;
 }
+const LangContext = React.createContext("both");
+
+
 function loadData() {
   // 1. Lee la URL primero (link compartido)
   try {
@@ -1358,6 +1407,7 @@ function ZoomRow({
   es,
   hymn
 }) {
+  const lang = React.useContext(LangContext);
   const rowRef = useRef(null);
   const jpRef = useRef(null);
   useGSAP((gsap, ST) => {
@@ -1410,27 +1460,37 @@ function ZoomRow({
     });
     return () => ST.getAll().forEach(t => t.kill());
   }, [label]);
-  if (!jp && !es) return null;
+  // Filter by language
+  const showJp = lang === "both" || lang === "jp";
+  const showEs = lang === "both" || lang === "es";
+  const displayJp = showJp ? jp : null;
+  const displayEs = showEs ? es : null;
+  if (!displayJp && !displayEs) return null;
+  // Use lang-specific label parts
+  const labelParts = label.split(" / ");
+  const displayLabel = lang === "jp" ? (labelParts[0] || label)
+    : lang === "es" ? (labelParts[1] || label)
+    : label;
   return /*#__PURE__*/React.createElement("div", {
     className: "zoom-row",
     ref: rowRef
   }, /*#__PURE__*/React.createElement("span", {
     className: "r-lbl"
-  }, label), /*#__PURE__*/React.createElement("div", {
+  }, displayLabel), /*#__PURE__*/React.createElement("div", {
     className: "r-val"
-  }, hymn ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  }, hymn ? /*#__PURE__*/React.createElement(React.Fragment, null, showJp && /*#__PURE__*/React.createElement("div", {
     className: "r-jp",
     ref: jpRef
   }, /*#__PURE__*/React.createElement("span", {
     className: "h-tag h-jp"
-  }, "\u266A JP"), jp), /*#__PURE__*/React.createElement("div", {
+  }, "\u266A JP"), jp), showEs && /*#__PURE__*/React.createElement("div", {
     className: "r-es"
   }, /*#__PURE__*/React.createElement("span", {
     className: "h-tag h-es"
-  }, "\u266A \uD83C\uDDF5\uD83C\uDDFE"), es)) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  }, "\u266A \uD83C\uDDF5\uD83C\uDDFE"), es)) : /*#__PURE__*/React.createElement(React.Fragment, null, showJp && /*#__PURE__*/React.createElement("div", {
     className: "r-jp",
     ref: jpRef
-  }, jp), es && es !== jp && /*#__PURE__*/React.createElement("div", {
+  }, jp), showEs && es && es !== jp && /*#__PURE__*/React.createElement("div", {
     className: "r-es"
   }, es))));
 }
@@ -1660,6 +1720,9 @@ function Popup({
 function Viewer({
   data
 }) {
+  const lang = React.useContext(LangContext);
+  const showJp = lang === "both" || lang === "jp";
+  const showEs = lang === "both" || lang === "es";
   const c = data.culto,
     e = data.escuela,
     a = data.anuncios;
@@ -1781,7 +1844,7 @@ function Viewer({
     className: "prayer"
   }, /*#__PURE__*/React.createElement("div", {
     className: "prayer-ttl"
-  }, "\u57F7\u308A\u6210\u3057\u306E\u304A\u7948\u308A\u3000ORACI\xD3N DIARIA"), data.oraciones.map((o, i) => /*#__PURE__*/React.createElement(ZoomLine, {
+  }, lang==="jp" ? "\u57F7\u308A\u6210\u3057\u306E\u304A\u7948\u308A" : lang==="es" ? "ORACI\xD3N DIARIA" : "\u57F7\u308A\u6210\u3057\u306E\u304A\u7948\u308A\u3000ORACI\xD3N DIARIA"), data.oraciones.map((o, i) => /*#__PURE__*/React.createElement(ZoomLine, {
     key: i,
     className: "p-zoom",
     textClass: "p-text"
@@ -1795,17 +1858,17 @@ function Viewer({
     className: "anuncio"
   }, /*#__PURE__*/React.createElement("div", {
     className: "anuncio-ttl"
-  }, "\u767A\u8868\u3000ANUNCIOS"), /*#__PURE__*/React.createElement(ZoomLine, {
+  }, lang==="jp" ? "\u767A\u8868" : lang==="es" ? "ANUNCIOS" : "\u767A\u8868\u3000ANUNCIOS"), /*#__PURE__*/React.createElement(ZoomLine, {
     className: "a-zoom",
     textClass: "p-text"
   }, /*#__PURE__*/React.createElement("span", {
     className: "p-text"
-  }, "\u6708\u5F53\u756A\u9577\u8001 / Anciano: ", a.anciano_jp, " / ", a.anciano_es)), /*#__PURE__*/React.createElement(ZoomLine, {
+  }, lang==="jp" ? "\u6708\u5F53\u756A\u9577\u8001: " + a.anciano_jp : lang==="es" ? "Anciano: " + a.anciano_es : "\u6708\u5F53\u756A\u9577\u8001 / Anciano: " + a.anciano_jp + " / " + a.anciano_es)), /*#__PURE__*/React.createElement(ZoomLine, {
     className: "a-zoom",
     textClass: "p-text"
   }, /*#__PURE__*/React.createElement("span", {
     className: "p-text"
-  }, "\u6B21\u9031\u8AAC\u6559 / Serm\xF3n sig.: ", a.sermon_sig_jp, " / ", a.sermon_sig_es)), /*#__PURE__*/React.createElement(ZoomLine, {
+  }, lang==="jp" ? "\u6B21\u9031\u8AAC\u6559: " + a.sermon_sig_jp : lang==="es" ? "Serm\xF3n sig.: " + a.sermon_sig_es : "\u6B21\u9031\u8AAC\u6559 / Serm\xF3n sig.: " + a.sermon_sig_jp + " / " + a.sermon_sig_es)), /*#__PURE__*/React.createElement(ZoomLine, {
     className: "a-zoom",
     textClass: "p-text"
   }, /*#__PURE__*/React.createElement("span", {
@@ -2411,6 +2474,44 @@ function buildNewWeekData(base) {
   };
 }
 
+/* ── Token Setup Banner ── */
+function TokenBanner({ onSaved }) {
+  const [val, setVal] = React.useState("");
+  const [saved, setSaved] = React.useState(false);
+
+  const handleSave = () => {
+    if (!val.trim()) return;
+    saveToken(val.trim());
+    setSaved(true);
+    setTimeout(() => onSaved(), 800);
+  };
+
+  return React.createElement("div", { className: "token-banner" },
+    React.createElement("div", { className: "token-banner-title" },
+      "🔑 CONFIGURACIÓN — Ingresá tu GitHub Token para guardar en la nube"
+    ),
+    React.createElement("div", { className: "token-row" },
+      React.createElement("input", {
+        className: "token-input",
+        type: "password",
+        placeholder: "ghp_...",
+        value: val,
+        onChange: e => setVal(e.target.value),
+        onKeyDown: e => e.key === "Enter" && handleSave()
+      }),
+      React.createElement("button", {
+        className: "token-btn",
+        onClick: handleSave
+      }, "Guardar")
+    ),
+    saved
+      ? React.createElement("div", { className: "token-ok" }, "✓ Token guardado — solo en tu navegador")
+      : React.createElement("div", { className: "token-ok" },
+          "El token nunca se sube a GitHub — queda solo en este navegador"
+        )
+  );
+}
+
 /* ── App ── */
 function App() {
   const [tab, setTab] = useState("view");
@@ -2434,6 +2535,9 @@ function App() {
   const [toast, setToast] = useState("");
   const [showPopup, setShowPopup] = useState(true);
   const [syncing, setSyncing] = useState(true);
+  const [needsToken, setNeedsToken] = useState(!getToken());
+  const [lang, setLang] = useState(getLang());
+  const changeLang = l => { setLang(l); saveLang(l); };
 
   // Cargar desde la nube al abrir
   useEffect(() => {
@@ -2519,9 +2623,25 @@ ${a.nota ? "• " + a.nota : ""}
   }, "\u270F\uFE0F Editor")), tab === "view" ? /*#__PURE__*/React.createElement(React.Fragment, null, showPopup && /*#__PURE__*/React.createElement(Popup, {
     data: data,
     onClose: () => setShowPopup(false)
-  }), /*#__PURE__*/React.createElement(Viewer, {
-    data: data
   }), /*#__PURE__*/React.createElement("div", {
+    className: "lang-bar"
+  },
+    /*#__PURE__*/React.createElement("button", {
+      className: "lang-btn" + (lang==="jp" ? " active" : ""),
+      onClick: () => changeLang("jp")
+    }, "🇯🇵 日本語"),
+    /*#__PURE__*/React.createElement("button", {
+      className: "lang-btn" + (lang==="both" ? " active" : ""),
+      onClick: () => changeLang("both")
+    }, "🌐 両方"),
+    /*#__PURE__*/React.createElement("button", {
+      className: "lang-btn" + (lang==="es" ? " active" : ""),
+      onClick: () => changeLang("es")
+    }, "🇵🇾 Español")
+  ),
+  /*#__PURE__*/React.createElement(LangContext.Provider, { value: lang },
+    /*#__PURE__*/React.createElement(Viewer, { data: data })
+  ), /*#__PURE__*/React.createElement("div", {
     className: "share-bar"
   }, /*#__PURE__*/React.createElement("button", {
     className: "share-btn",
@@ -2538,7 +2658,7 @@ ${a.nota ? "• " + a.nota : ""}
         showToast("↺ " + newData.fecha + " · " + newData.fechaJp);
       }
     }
-  }, "↺ 次の安息日へ / Nueva semana")), /*#__PURE__*/React.createElement(Editor, {
+  }, "↺ 次の安息日へ / Nueva semana")), needsToken && /*#__PURE__*/React.createElement(TokenBanner, { onSaved: () => setNeedsToken(false) }), /*#__PURE__*/React.createElement(Editor, {
     data: data,
     onChange: setData
   }), /*#__PURE__*/React.createElement("div", {
